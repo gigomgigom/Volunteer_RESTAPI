@@ -7,8 +7,5 @@
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
    <typeAliases>
-      <typeAlias alias="member" type="com.mycompany.webapp.dto.Member"/>
-      <typeAlias alias="board" type="com.mycompany.webapp.dto.Board"/>
-      <typeAlias alias="pager" type="com.mycompany.webapp.dto.Pager" />
    </typeAliases>
 </configuration>
