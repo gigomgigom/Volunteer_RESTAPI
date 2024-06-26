@@ -4,5 +4,7 @@ import lombok.Data;
 
 @Data
 public class EduSttsCtgDto {
+	private int sttsNo;
+	private String sttsName;
 
 }

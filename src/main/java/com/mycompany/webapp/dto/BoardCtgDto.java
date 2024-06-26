@@ -4,5 +4,7 @@ import lombok.Data;
 
 @Data
 public class BoardCtgDto {
+	private int ctgNo;
+	private String cthName;
 	
 }
