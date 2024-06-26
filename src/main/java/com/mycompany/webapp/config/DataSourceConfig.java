@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 public class DataSourceConfig {
+	//데이터베이스와의 연결을 설정하는 데 필요한 설정 파일
 	
 	@Bean
 	public DataSource dataSource() {
