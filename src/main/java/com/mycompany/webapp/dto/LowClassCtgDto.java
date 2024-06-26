@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class LowClassCtgDto {
-	private String LowCtgnNo;
-	private String HighCtgNo;
-	private String LowCtgName;
+	private String lowCtgnNo;
+	private String highCtgNo;
+	private String lowCtgName;
 }

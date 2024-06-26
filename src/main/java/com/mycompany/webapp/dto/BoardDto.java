@@ -14,10 +14,10 @@ public class BoardDto {
 	private int hitCount;
 	private String adminReply;
 	private String battachOname;
-	private Byte[] battachData;
+	private byte[] battachData;
 	private String battachType;
 	private String imgOname;
-	private Byte[] imgData;
+	private byte[] imgData;
 	private String imgType;
 	private int boardCtg;
 	

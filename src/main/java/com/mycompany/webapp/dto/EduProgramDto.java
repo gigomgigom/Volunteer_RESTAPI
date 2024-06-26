@@ -23,12 +23,12 @@ public class EduProgramDto {
 	private String mngEmail;
 	private String actPlace;
 	private String battachOname;
-	private Byte[] battachData;
+	private byte[] battachData;
 	private String battachType;
 	private String imgOname;
-	private Byte[] imgData;
+	private byte[] imgData;
 	private String imgType;
-	private int enabled;
+	private boolean enabled;
  	
 	
 

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class InterestProgramDto {
-	private String MemberId;
-	private int ProgramNo;
+	private String memberId;
+	private int programNo;
 }

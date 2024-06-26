@@ -12,16 +12,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.webapp.dao.MemberDao;
-import com.mycompany.webapp.dto.Member;
+import com.mycompany.webapp.dto.MemberDto;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {
 	@Autowired
-	private MemberDao memberDao;	
+	private MemberDao memberDao;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Member member = memberDao.selectByMid(username); 
+		MemberDto member = memberDao.selectByMemberId(username); 
 		
 		if(member == null) {
 			throw new UsernameNotFoundException(username);

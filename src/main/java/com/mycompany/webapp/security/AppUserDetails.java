@@ -12,15 +12,15 @@ public class AppUserDetails extends User  {
 	private MemberDto member;
 	
 	public AppUserDetails(MemberDto member, List<GrantedAuthority> authorities) {	
-		super(member.getMid(), 
-			  member.getMpassword(), 
+		super(member.getMemberId(), 
+			  member.getMemberPw(), 
 			  member.isMenabled(), 
 			  true, true, true, 
 			  authorities);
 		this.member = member;
 	}
 
-	public Member getMember() {
+	public MemberDto getMember() {
 		return member;
 	}
 }

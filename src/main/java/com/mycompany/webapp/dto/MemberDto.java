@@ -6,17 +6,17 @@ import lombok.Data;
 
 @Data
 public class MemberDto {
-	private String MemberId;
-	private String MemberName;
-	private Date Birthdate;
-	private String MemberPw;
-	private String PostNo;
-	private String Address;
-	private String AddressDetail;
-	private String Tel;
-	private String Email;
-	private String AffCenter;
-	private String HopeCtg;
-	private int menabled;
+	private String memberId;
+	private String memberName;
+	private Date birthdate;
+	private String memberPw;
+	private String postNo;
+	private String address;
+	private String addressDetail;
+	private String tel;
+	private String email;
+	private String affCenter;
+	private String hopeCtg;
+	private boolean menabled;
 	private String mrole;
 }
