@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.webapp.dao.MemberDao">
-	<select id="selectByMid" parameterType="String" resultType="Member">
+	<insert id="insertMember" parameterType="member">
+		insert into member(member_id, member_name, birthdate, member_pw, post_no, address, address_Detail, tel, email, aff_center, hope_ctg, menabled, mrole)
+		values (#{memberId}, #{memberName}, #{birthdate}, #{memberPw}, #{postNo}, #{address}, #{addressDetail}, #{tel}, #{email}, #{affCenter}, #{hopeCtg}, #{menabled}, #{mrole})
+		
+	</insert>
+	
+	<select id="selectByMemberId" parameterType="String" resultType="Member">
 		select member_id, member_name, birthdate, member_pw, post_no, address, address_detail, tel, email, aff_center, hope_ctg, menabled, mrole
 		from member
 		where member_id = #{memberId}

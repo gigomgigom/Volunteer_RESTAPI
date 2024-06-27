@@ -19,7 +19,6 @@ public class AppUserDetails extends User  {
 			  authorities);
 		this.member = member;
 	}
-
 	public MemberDto getMember() {
 		return member;
 	}
