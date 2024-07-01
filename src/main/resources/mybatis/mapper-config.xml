@@ -9,5 +9,9 @@
    <typeAliases>
       <typeAlias alias="member" type="com.mycompany.webapp.dto.MemberDto"/>
       <typeAlias alias="board" type="com.mycompany.webapp.dto.BoardDto"/>
+      <typeAlias alias="review" type="com.mycompany.webapp.dto.ReviewDto"/>
+      <typeAlias alias="volProgram" type="com.mycompany.webapp.dto.VolProgramDto"/>
+      <typeAlias alias="eduProgram" type="com.mycompany.webapp.dto.EduProgramDto"/>
+      <typeAlias alias="reviewReply" type="com.mycompany.webapp.dto.ReviewReplyDto"/>
    </typeAliases>
 </configuration>
