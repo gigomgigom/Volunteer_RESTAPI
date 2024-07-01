@@ -9,4 +9,8 @@ public interface VolProgramDao {
 
 	int insertVolProgram(VolProgramDto volProgram);
 
+	VolProgramDto selectVolProgramByNo(int programNo);
+
+	int updateVolProgram(VolProgramDto volProgram);
+
 }

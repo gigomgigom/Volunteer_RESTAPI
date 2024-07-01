@@ -9,4 +9,6 @@ public interface EduProgramDao {
 
 	int insertEduProgram(EduProgramDto eduProgram);
 
+	EduProgramDto selectEduProgramByNo(int programNo);
+
 }

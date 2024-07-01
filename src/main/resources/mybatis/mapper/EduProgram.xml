@@ -42,4 +42,9 @@
         #{battachOname}, #{battachData}, #{battachType}, #{imgOname}, #{imgData}, #{imgType}, #{enabled}
     )
 	</insert>
+	<select id="selectEduProgramByNo" parameterType="int" resultMap="EduProgramResultMap">
+        select *
+        from educational_program 
+        where program_no = #{programNo}
+    </select>
 </mapper>
