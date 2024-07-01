@@ -9,6 +9,7 @@
         <result property="content" column="content"/>
         <result property="boardDate" column="board_date"/>
         <result property="hitCnt" column="hit_cnt"/>
+        <result property="adminReply" column="admin_reply"/>
         <result property="battachOname" column="battach_oname"/>
         <result property="battachData" column="battach_data"/>
         <result property="battachType" column="battach_type"/>
@@ -33,7 +34,7 @@
 	       	#{imgType}, #{boardCtg})
 	</insert>
 	<select id="selectBoardByNo" parameterType="int" resultMap="BoardResultMap">
-        select board_no, member_id, title, content, board_date, hit_cnt,
+        select board_no, member_id, title, content, board_date, hit_cnt, admin_reply,
                battach_oname, battach_data, battach_type, img_oname, img_data,
                img_type, board_ctg
         from intergrated_board 

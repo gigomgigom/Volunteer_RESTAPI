@@ -25,4 +25,17 @@ public class AdminService {
 		return eduProgramDao.insertEduProgram(eduProgram);
 	}
 
+	public VolProgramDto getVolProgram(int programNo) {
+		return volProgramDao.selectVolProgramByNo(programNo);
+	}
+
+	public EduProgramDto getEduProgram(int programNo) {
+		return eduProgramDao.selectEduProgramByNo(programNo);
+	}
+
+	public int modifyVolProgram(VolProgramDto volProgram) {
+		return volProgramDao.updateVolProgram(volProgram);
+		
+	}
+
 }

@@ -16,4 +16,8 @@ public interface VolProgramDao {
 	
 	public List<VolProgramDto> selectVolList(Pager pager);
 
+	VolProgramDto selectVolProgramByNo(int programNo);
+
+	int updateVolProgram(VolProgramDto volProgram);
+
 }
