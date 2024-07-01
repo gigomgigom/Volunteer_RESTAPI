@@ -1,5 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.webapp.dao.BoardDao">
-
+	<!-- intergrated_board - result map 정의 -->
+	<resultMap id="BoardResultMap" type="com.mycompany.webapp.dto.BoardDto">
+        <id property="boardNo" column="board_no"/>
+        <result property="memberId" column="member_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="boardDate" column="board_date"/>
+        <result property="hitCnt" column="hit_cnt"/>
+        <result property="battachOname" column="battach_oname"/>
+        <result property="battachData" column="battach_data"/>
+        <result property="battachType" column="battach_type"/>
+        <result property="imgOname" column="img_oname"/>
+        <result property="imgData" column="img_data"/>
+        <result property="imgType" column="img_type"/>
+        <result property="boardCtg" column="board_ctg"/>
+    </resultMap>
+	
+	<insert id="insertBoard" parameterType="board">
+		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+			select intergrated_bo_no.nextval from dual
+		</selectKey>	
+		<!-- null이 들어갈 컬럼값은 반드시 jdbcType을 명시해야함 -->
+		insert into intergrated_board (
+			board_no, member_id, title, content, board_date, hit_cnt,  
+			battach_oname, battach_data, battach_type, img_oname, img_data,
+			img_type, board_ctg) 
+			values (
+			#{boardNo}, #{memberId}, #{title}, #{content}, sysdate, 0, 
+	       	#{battachOname}, #{battachData}, #{battachType}, #{imgOname}, #{imgData}, 
+	       	#{imgType}, #{boardCtg})
+	</insert>
+	<select id="selectBoardByNo" parameterType="int" resultMap="BoardResultMap">
+        select board_no, member_id, title, content, board_date, hit_cnt,
+               battach_oname, battach_data, battach_type, img_oname, img_data,
+               img_type, board_ctg
+        from intergrated_board 
+        where board_no = #{boardNo}
+    </select>
+    <update id="updateBoard" parameterType="board">
+		update intergrated_board set title = #{title}, content = #{content}
+		<if test="battachOname != null">
+			, battach_oname=#{battachOname}
+			, battach_type=#{battachType}
+			, battach_data=#{battachData}
+		</if>
+		<if test="imgOname != null">
+			, img_oname=#{imgOname}
+			, img_type=#{imgType}
+			, img_data=#{imgData}
+		</if>
+		where board_no = #{boardNo}
+	</update>
+	<update id="updateHitCntByNo" parameterType="int">	
+		update intergrated_board set hit_cnt = hit_cnt + 1 
+		where board_no = #{boardNo}
+	</update>
+	<delete id="deleteBoard" parameterType="int">
+		delete from intergrated_board where board_no= #{boardNo}
+	</delete>
 </mapper>

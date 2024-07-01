@@ -4,7 +4,6 @@
 	<insert id="insertMember" parameterType="member">
 		insert into member(member_id, member_name, birthdate, member_pw, post_no, address, address_Detail, tel, email, aff_center, hope_ctg, menabled, mrole)
 		values (#{memberId}, #{memberName}, #{birthdate}, #{memberPw}, #{postNo}, #{address}, #{addressDetail}, #{tel}, #{email}, #{affCenter}, #{hopeCtg}, #{menabled}, #{mrole})
-		
 	</insert>
 	
 	<select id="selectByMemberId" parameterType="String" resultType="Member">

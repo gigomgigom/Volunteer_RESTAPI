@@ -2,6 +2,8 @@ package com.mycompany.webapp.dto;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -20,7 +22,6 @@ public class EduProgramDto {
 	private int actEndTime;
 	private String mngName;
 	private String mngTel;
-	private String mngEmail;
 	private String actPlace;
 	private String battachOname;
 	private byte[] battachData;
@@ -29,6 +30,8 @@ public class EduProgramDto {
 	private byte[] imgData;
 	private String imgType;
 	private boolean enabled;
+	private MultipartFile battachFile;
+	private MultipartFile battachImg;
  	
 	
 
