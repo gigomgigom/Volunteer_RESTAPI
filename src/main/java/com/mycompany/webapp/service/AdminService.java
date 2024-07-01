@@ -38,4 +38,9 @@ public class AdminService {
 		
 	}
 
+	public int modifyeduProgram(EduProgramDto eduProgram) {
+		return eduProgramDao.updateEduProgram(eduProgram);
+		
+	}
+
 }

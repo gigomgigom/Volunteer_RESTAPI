@@ -93,7 +93,15 @@
         where program_no = #{programNo}
     </select>
     <update id="updateVolProgram" parameterType="volProgram">
-		update volunteer_program set title = #{title}, content = #{content}
+		update volunteer_program set program_title = #{programTitle},
+		 recruit_stts = #{recruitStts}, act_bgn_date = #{actBgnDate},
+		 act_end_date = #{actEndDate}, act_bgn_time = #{actBgnTime},
+		 act_end_time = #{actEndTime}, recruit_bgn_date = #{recruitBgnDate},
+		 recruit_end_date = #{recruitEndDate}, recruit_cnt = #{recruitCnt},
+		 apply_cnt = #{applyCnt}, program_ctg = #{programCtg}, adult_posbl = #{adultPosbl},
+		 teen_posbl = #{teenPosbl}, recruit_name = #{recruitName}, act_place = #{actPlace},
+		 mng_name = #{mngName}, mng_tel = #{mngTel}, region_no = #{regionNo}, location = #{location},
+		 content = #{content}
 		<if test="battachOname != null">
 			, battach_oname=#{battachOname}
 			, battach_type=#{battachType}
