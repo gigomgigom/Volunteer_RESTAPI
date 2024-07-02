@@ -12,6 +12,7 @@
       <typeAlias alias="review" type="com.mycompany.webapp.dto.ReviewDto"/>
       <typeAlias alias="volProgram" type="com.mycompany.webapp.dto.VolProgramDto"/>
       <typeAlias alias="eduProgram" type="com.mycompany.webapp.dto.EduProgramDto"/>
+      <typeAlias alias="volAppDetailDto" type="com.mycompany.webapp.dto.VolAppDetailDto"/>
       <typeAlias alias="reviewReply" type="com.mycompany.webapp.dto.ReviewReplyDto"/>
       <typeAlias alias="pager" type="com.mycompany.webapp.dto.Pager"/>
    </typeAliases>
