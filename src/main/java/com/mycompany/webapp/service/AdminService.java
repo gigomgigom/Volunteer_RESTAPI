@@ -43,4 +43,12 @@ public class AdminService {
 		
 	}
 
+	public int removeVolProgram(int programNo) {
+		return volProgramDao.deleteVolProgram(programNo);
+	}
+
+	public int removeEduProgram(int programNo) {
+		return eduProgramDao.deleteEduProgram(programNo);
+	}
+
 }

@@ -58,6 +58,14 @@
 		where board_no = #{boardNo}
 	</update>
 	<delete id="deleteReview" parameterType="int">
-		delete from vol_revie where board_no= #{boardNo}
+		delete from vol_review where board_no= #{boardNo}
 	</delete>
+	<insert id="insertReviewReply">
+		<selectKey keyProperty="replyNo" resultType="int" order="BEFORE">
+			select reply_no.nextval from dual
+		</selectKey>
+		insert into review_reply (reply_no, board_no, member_id, content, reply_date, pre_reply_no)
+		values (#{replyNo}, #{boardNo}, #{memberId}, #{content}, sysdate, #{preReplyNo})
+	</insert>
+	
 </mapper>

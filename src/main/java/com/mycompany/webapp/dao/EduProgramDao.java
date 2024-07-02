@@ -13,4 +13,6 @@ public interface EduProgramDao {
 
 	int updateEduProgram(EduProgramDto eduProgram);
 
+	int deleteEduProgram(int programNo);
+
 }
