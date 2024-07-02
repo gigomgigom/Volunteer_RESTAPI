@@ -21,4 +21,6 @@ public interface VolProgramDao {
 	//봉사프로그램 수정하기
 	public int updateVolProgram(VolProgramDto volProgram);
 
+	public int deleteVolProgram(int programNo);
+
 }

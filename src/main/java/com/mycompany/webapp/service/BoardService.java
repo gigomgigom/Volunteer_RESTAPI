@@ -7,6 +7,7 @@ import com.mycompany.webapp.dao.BoardDao;
 import com.mycompany.webapp.dao.ReviewDao;
 import com.mycompany.webapp.dto.BoardDto;
 import com.mycompany.webapp.dto.ReviewDto;
+import com.mycompany.webapp.dto.ReviewReplyDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
+	@Autowired
 	private ReviewDao reviewDao;
 	
 	public int writeBoard(BoardDto board) {
@@ -48,7 +50,6 @@ public class BoardService {
 		return reviewDao.updateHitCntByNo(boardNo);
 	}
 	
-
 	public int removeBoard(int boardNo) {
 		return boardDao.deleteBoard(boardNo);
 		
@@ -56,6 +57,11 @@ public class BoardService {
 
 	public int removeReview(int boardNo) {
 		return reviewDao.deleteReview(boardNo);
+	}
+
+	public int registerReviewReply(ReviewReplyDto reviewReply) {
+		return reviewDao.insertReviewReply(reviewReply);
+		
 	}
 
 	

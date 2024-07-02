@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mycompany.webapp.dto.BoardDto;
 import com.mycompany.webapp.dto.ReviewDto;
+import com.mycompany.webapp.dto.ReviewReplyDto;
 import com.mycompany.webapp.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -229,5 +230,17 @@ public class BoardController {
 			result = "success";
 		}
 		return result;
+	}
+	@PreAuthorize("hasAuthority('ROLE_USER')")
+	@PostMapping("/write_review_reply")
+	public ReviewReplyDto writeReviewReply(ReviewReplyDto reviewReply, Authentication authentication) {
+		
+		//댓글작성자 세팅
+		reviewReply.setMemberId(authentication.getName());
+		log.info("댓글 : " + reviewReply);
+		//댓글 등록
+		boardService.registerReviewReply(reviewReply);
+		
+		return reviewReply;
 	}
 }

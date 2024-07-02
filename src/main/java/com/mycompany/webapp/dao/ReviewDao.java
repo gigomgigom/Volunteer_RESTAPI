@@ -3,6 +3,7 @@ package com.mycompany.webapp.dao;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mycompany.webapp.dto.ReviewDto;
+import com.mycompany.webapp.dto.ReviewReplyDto;
 
 @Mapper
 public interface ReviewDao {
@@ -16,5 +17,7 @@ public interface ReviewDao {
 	int updateReview(ReviewDto review);
 
 	int deleteReview(int boardNo);
+
+	int insertReviewReply(ReviewReplyDto reviewReply);
 
 }

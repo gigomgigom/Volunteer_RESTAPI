@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -202,6 +203,24 @@ public class AdminController {
 		eduProgram.setBattachData(null);
 		eduProgram.setImgData(null);
 		return eduProgram;
+	}
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@DeleteMapping("/delete_vol_program/{programNo}")
+	public String deleteVolProgram(@PathVariable int programNo) {
+		String result = "fail";
+		if(adminService.removeVolProgram(programNo) == 1) {
+			result = "success";
+		}
+		return result;
+	}
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@DeleteMapping("/delete_edu_program/{programNo}")
+	public String deleteEduProgram(@PathVariable int programNo) {
+		String result = "fail";
+		if(adminService.removeEduProgram(programNo) == 1) {
+			result = "success";
+		}
+		return result;
 	}
 	
 	

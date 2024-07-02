@@ -81,4 +81,7 @@
 		</if>
 		where program_no = #{programNo}
 	</update>
+	<delete id="deleteEduProgram" parameterType="int">
+		delete from educational_program where program_no = #{programNo}
+	</delete>
 </mapper>
