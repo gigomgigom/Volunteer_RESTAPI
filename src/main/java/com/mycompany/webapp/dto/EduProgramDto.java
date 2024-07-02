@@ -2,6 +2,7 @@ package com.mycompany.webapp.dto;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -14,9 +15,13 @@ public class EduProgramDto {
 	private String recruitRegion;
 	private int recruitCnt;
 	private int applyCnt;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date recruitBgnDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date recruitEndDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date actBgnDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date actEndDate;
 	private int actBgnTime;
 	private int actEndTime;
@@ -33,6 +38,4 @@ public class EduProgramDto {
 	private MultipartFile battachFile;
 	private MultipartFile battachImg;
  	
-	
-
 }

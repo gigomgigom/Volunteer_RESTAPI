@@ -11,4 +11,6 @@ public interface EduProgramDao {
 
 	EduProgramDto selectEduProgramByNo(int programNo);
 
+	int updateEduProgram(EduProgramDto eduProgram);
+
 }

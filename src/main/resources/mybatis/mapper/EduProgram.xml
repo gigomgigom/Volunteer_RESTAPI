@@ -2,49 +2,83 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.webapp.dao.EduProgramDao">
 	<!-- educational_program - result map 정의 -->
-	<resultMap id="EduProgramResultMap" type="com.mycompany.webapp.dto.EduProgramDto">
-	    <id property="programNo" column="program_no" />
-	    <result property="programTitle" column="program_title" />
-	    <result property="content" column="content" />
-	    <result property="recruitRegion" column="recruit_region" />
-	    <result property="recruitCnt" column="recruit_cnt" />
-	    <result property="applyCnt" column="apply_cnt" />
-	    <result property="recruitBgnDate" column="recruit_bgn_date" />
-	    <result property="recruitEndDate" column="recruit_end_date" />
-	    <result property="actBgnDate" column="act_bgn_date" />
-	    <result property="actEndDate" column="act_end_date" />
-	    <result property="actBgnTime" column="act_bgn_time" />
-	    <result property="actEndTime" column="act_end_time" />
-	    <result property="mngName" column="mng_name" />
-	    <result property="mngTel" column="mng_tel" />
-	    <result property="actPlace" column="act_place" />
-	    <result property="battachOname" column="battach_oname" />
-	    <result property="battachData" column="battach_data" />
-	    <result property="battachType" column="battach_type" />
-	    <result property="imgOname" column="img_oname" />
-	    <result property="imgData" column="img_data" />
-	    <result property="imgType" column="img_type" />
-	    <result property="enabled" column="enabled" />
+	<resultMap id="EduProgramResultMap"
+		type="com.mycompany.webapp.dto.EduProgramDto">
+		<id property="programNo" column="program_no" />
+		<result property="programTitle" column="program_title" />
+		<result property="content" column="content" />
+		<result property="recruitRegion" column="recruit_region" />
+		<result property="recruitCnt" column="recruit_cnt" />
+		<result property="applyCnt" column="apply_cnt" />
+		<result property="recruitBgnDate" column="recruit_bgn_date" />
+		<result property="recruitEndDate" column="recruit_end_date" />
+		<result property="actBgnDate" column="act_bgn_date" />
+		<result property="actEndDate" column="act_end_date" />
+		<result property="actBgnTime" column="act_bgn_time" />
+		<result property="actEndTime" column="act_end_time" />
+		<result property="mngName" column="mng_name" />
+		<result property="mngTel" column="mng_tel" />
+		<result property="actPlace" column="act_place" />
+		<result property="battachOname" column="battach_oname" />
+		<result property="battachData" column="battach_data" />
+		<result property="battachType" column="battach_type" />
+		<result property="imgOname" column="img_oname" />
+		<result property="imgData" column="img_data" />
+		<result property="imgType" column="img_type" />
+		<result property="enabled" column="enabled" />
 	</resultMap>
 	<insert id="insertEduProgram" parameterType="eduProgram">
-    <selectKey keyProperty="programNo" resultType="int" order="BEFORE">
-        select edu_program_no.nextval from dual
-    </selectKey>
-    insert into edu_program (
-        program_no, program_title, content, recruit_region, recruit_cnt, 
-        apply_cnt, recruit_bgn_date, recruit_end_date, act_bgn_date, act_end_date, 
-        act_bgn_time, act_end_time, mng_name, mng_tel, mng_email, act_place, 
-        battach_oname, battach_data, battach_type, img_oname, img_data, img_type, enabled
-    ) values (
-        #{programNo}, #{programTitle}, #{content}, #{recruitRegion}, #{recruitCnt}, 
-        #{applyCnt}, #{recruitBgnDate}, #{recruitEndDate}, #{actBgnDate}, #{actEndDate}, 
-        #{actBgnTime}, #{actEndTime}, #{mngName}, #{mngTel}, #{mngEmail}, #{actPlace}, 
-        #{battachOname}, #{battachData}, #{battachType}, #{imgOname}, #{imgData}, #{imgType}, #{enabled}
-    )
+		<selectKey keyProperty="programNo" resultType="int"
+			order="BEFORE">
+			select edu_program_no.nextval from dual
+		</selectKey>
+		insert into edu_program (
+		program_no, program_title, content, recruit_region, recruit_cnt,
+		apply_cnt, recruit_bgn_date, recruit_end_date, act_bgn_date, act_end_date,
+		act_bgn_time, act_end_time, mng_name, mng_tel, mng_email, act_place,
+		battach_oname, battach_data, battach_type, img_oname, img_data,
+		img_type, enabled
+		) values (
+		#{programNo}, #{programTitle}, #{content}, #{recruitRegion}, #{recruitCnt},
+		#{applyCnt}, #{recruitBgnDate}, #{recruitEndDate}, #{actBgnDate},
+		#{actEndDate},
+		#{actBgnTime}, #{actEndTime}, #{mngName}, #{mngTel}, #{mngEmail}, #{actPlace},
+		#{battachOname}, #{battachData}, #{battachType}, #{imgOname},
+		#{imgData}, #{imgType}, #{enabled}
+		)
 	</insert>
-	<select id="selectEduProgramByNo" parameterType="int" resultMap="EduProgramResultMap">
-        select *
-        from educational_program 
-        where program_no = #{programNo}
-    </select>
+	<select id="selectEduProgramByNo" parameterType="int"
+		resultMap="EduProgramResultMap">
+		select *
+		from educational_program
+		where program_no = #{programNo}
+	</select>
+	<update id="updateEduProgram" parameterType="EduProgram">
+		update educational_program
+		set program_title = #{programTitle},
+		act_bgn_date = #{actBgnDate},
+		act_end_date = #{actEndDate},
+		act_bgn_time = #{actBgnTime},
+		act_end_time = #{actEndTime},
+		recruit_region = #{recruitRegion},
+		recruit_bgn_date = #{recruitBgnDate},
+		recruit_end_date = #{recruitEndDate},
+		recruit_cnt = #{recruitCnt},
+		apply_cnt = #{applyCnt},
+		act_place = #{actPlace},
+		mng_name = #{mngName},
+		mng_tel = #{mngTel},
+		content = #{content}
+		<if test="battachOname != null">
+			, battach_oname = #{battachOname}
+			, battach_type = #{battachType}
+			, battach_data = #{battachData}
+		</if>
+		<if test="imgOname != null">
+			, img_oname = #{imgOname}
+			, img_type = #{imgType}
+			, img_data = #{imgData}
+		</if>
+		where program_no = #{programNo}
+	</update>
 </mapper>
