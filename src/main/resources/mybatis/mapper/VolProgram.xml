@@ -164,14 +164,6 @@
 	</select>
 	<!-- ㅇ============================================================================================ㅇ -->
 	<!-- ㅇ============================================================================================ㅇ -->
-	<update id="updateVolProgram" parameterType="volProgram">
-		update volunteer_program set title = #{title}, content = #{content}
-	</update>
-	<select id="selectVolProgramByNo" parameterType="int" resultMap="VolProgramResultMap">
-        select *
-        from volunteer_program 
-        where program_no = #{programNo}
-    </select>
     <update id="updateVolProgram" parameterType="volProgram">
 		update volunteer_program set program_title = #{programTitle},
 		 recruit_stts = #{recruitStts}, act_bgn_date = #{actBgnDate},
