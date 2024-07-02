@@ -2,4 +2,88 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.webapp.dao.VolAppDetailDao">
 
+	<!-- =========================================================================================================== -->
+	<!-- =========================================================================================================== -->
+	<insert id="insertVolAppDetail" parameterType="volAppDetail">
+		insert into
+		VOLUNTEER_APPLICATION_DETAIL
+		( member_id, program_no, stts_no,
+		rev_written )
+		values
+		( #{memberId}, #{programNo}, 1, 0 )
+	</insert>
+
+	<insert id="insertVolAppSch">
+		insert into APPLY_SCHEDULE
+		( schedule_no, member_id,
+		program_no, apply_date )
+		values
+		( schedule_no.nextval, #{memberId},
+		#{programNo}, #{date} )
+	</insert>
+
+	<select id="selectExistingDetail" resultType="int">
+		select count(*)
+		from VOLUNTEER_APPLICATION_DETAIL
+		where member_id = #{memberId} and
+		program_no = #{programNo}
+	</select>
+
+	<select id="selectVolApplTotalCnt" resultType="int">
+		select count(*)
+		from volunteer_program vp
+		inner join (
+		select * from
+		volunteer_application_detail where member_id = #{memberId}
+		) vad
+		on
+		vp.program_no = vad.program_no
+		where vp.enabled = 1
+		<if test="searchIndex.startDate != null">
+			and
+			(#{searchIndex.startDate} <![CDATA[<=]]>
+			vp.act_end_date)
+			and
+			(#{searchIndex.endDate} <![CDATA[>=]]>
+			vp.act_bgn_date)
+		</if>
+		<if
+			test="searchIndex.keyword != null and searchIndex.keyword != ''">
+			and vp.program_title like '%' || #{searchIndex.keyword} || '%'
+		</if>
+		<if
+			test="searchIndex.recruitCenter != null and searchIndex.recruitCenter != ''">
+			and vp.recruit_name like '%' || #{searchIndex.recruitCenter} ||	'%'
+		</if>
+	</select>
+
+	<select id="selectVolApplyDetailList" resultType="volAppDetail">
+		select rnum, program_no, member_id, stts_no, rev_written
+		from (
+			select rownum as rnum, vad.program_no, member_id, stts_no, rev_written
+			from volunteer_program vp
+			inner join (
+				select * from volunteer_application_detail where member_id = #{memberId}
+			) vad
+			on vp.program_no = vad.program_no
+			where rownum <![CDATA[<=]]> #{pager.endRowNo} and vp.enabled = 1
+			<if test="searchIndex.startDate != null">
+				and
+				( #{searchIndex.startDate} <![CDATA[<=]]>
+				vp.act_end_date)
+				and
+				( #{searchIndex.endDate} <![CDATA[>=]]>
+				vp.act_bgn_date )
+			</if>
+			<if
+				test="searchIndex.keyword != null and searchIndex.keyword != ''">
+				and vp.program_title like '%' || #{searchIndex.keyword} || '%'
+			</if>
+			<if
+				test="searchIndex.recruitCenter != null and searchIndex.recruitCenter != ''">
+				and vp.recruit_name like '%' || #{searchIndex.recruitCenter} || '%'
+			</if>
+		) where rnum <![CDATA[>=]]> #{pager.startRowNo}
+	</select>
+
 </mapper>

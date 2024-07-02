@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.webapp.dao.InterestProgramDao">
+	<select id="selectIntrPrgmHistory" resultType="int">
+		select count(*)
+		from interest_program where member_id = #{memberId} and program_no =
+		#{programNo}
+	</select>
 
+	<insert id="insertIntrPrgmHistory">
+		insert into interest_program ( member_id, program_no
+		) values ( #{memberId}, #{programNo} )
+	</insert>
+
+	<delete id="deleteIntrPrgmHistory">
+		delete from interest_program where member_id =
+		#{memberId} and program_no = #{programNo}
+	</delete>
+
+	<select id="getIntrPrgmCnt" resultType="int">
+		select count(*) from
+		interest_program where member_id = #{memberId}
+	</select>
+
+	<select id="getIntrPrgmList" resultType="volProgram">
+		select rnum, program_no,
+		program_title, recruit_stts, act_bgn_date, act_end_date,
+		act_bgn_time, act_end_time, recruit_bgn_date, recruit_end_date, recruit_cnt,
+		apply_cnt, program_ctg, adult_posbl, teen_posbl, recruit_name,
+		act_place,
+		region_no, location, enabled
+		from
+		(
+		select
+		rownum as rnum, vp.program_no, program_title, recruit_stts, act_bgn_date,
+		act_end_date,
+		act_bgn_time, act_end_time, recruit_bgn_date, recruit_end_date, recruit_cnt,
+		apply_cnt, program_ctg, adult_posbl, teen_posbl, recruit_name,
+		act_place,
+		region_no, location, enabled
+		from volunteer_program vp
+		inner join (
+		select program_no
+		from interest_program
+		where member_id = #{memberId}
+		) ip
+		on vp.program_no = ip.program_no
+		where rownum <![CDATA[<=]]> #{pager.endRowNo}
+		)
+		where rnum <![CDATA[>=]]> #{pager.startRowNo}
+	</select>
 </mapper>

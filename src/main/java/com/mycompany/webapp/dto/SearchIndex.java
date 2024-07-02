@@ -21,7 +21,10 @@ public class SearchIndex {
 	//청소년 가능여부
 	private int teenPosbl;
 	
+	private int searchIndex;
 	private String keyword;
+	
+	private String recruitCenter;
 	
 	private int pageNo;
 }
