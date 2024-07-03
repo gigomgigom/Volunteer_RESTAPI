@@ -1,6 +1,10 @@
 package com.mycompany.webapp.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,12 +15,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mycompany.webapp.dto.EduProgramDto;
+import com.mycompany.webapp.dto.MemberDto;
+import com.mycompany.webapp.dto.Pager;
+import com.mycompany.webapp.dto.VolAppDetailDto;
 import com.mycompany.webapp.dto.VolProgramDto;
 import com.mycompany.webapp.service.AdminService;
+import com.mycompany.webapp.service.MemberService;
+import com.mycompany.webapp.service.VolParticipateService;
+import com.mycompany.webapp.service.VolProgramService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +37,12 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminController {
 	@Autowired
 	private AdminService adminService;
+	@Autowired
+	private VolParticipateService volPtcpService;
+	@Autowired
+	private MemberService memberService;
+	@Autowired
+	private VolProgramService volPrgmService;
 
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping("/create_vol_program")
@@ -223,5 +240,58 @@ public class AdminController {
 		return result;
 	}
 	
+	//봉사프로그램 신청인 목록 조회
+	@GetMapping("/get_vol_participant_list")
+	public Map<String, Object> getVolParticipantList(int programNo) {
+		Map<String, Object> result = new HashMap<>();
+		
+		List<MemberDto> applicantList = volPtcpService.getApplicantList(programNo);
+		
+		if(applicantList != null) {
+			result.put("result", "success");
+			result.put("applicantList", applicantList);
+		} else {
+			result.put("result", "failed");
+		}
+		return result;
+	}
+	
+	//봉사프로그램 승인요청 목록 조회
+	@GetMapping("/get_perform_rqst_list")
+	public Map<String, Object> getPerformRqstList(@RequestParam(defaultValue = "1") int pageNo) {
+		Map<String, Object> result = new HashMap<>();
+		//목록을 담을 리스트 생성
+		List<Map<String, Object>> items = new ArrayList<>();
+		
+		int totalRows = volPtcpService.getPerformRqstCnt();
+		
+		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		
+		//승인요청한 신청내역목록들을 가져오기
+		List<VolAppDetailDto> volAppDtlList = volPtcpService.getPerformRqstList(pager);
+		//조회 결과를 반복
+		for(VolAppDetailDto volAppDto : volAppDtlList) {
+			//리스트 안에 들어가는 item생성
+			Map<String, Object> item = new HashMap<>();
+			//요청일자 넣어주기
+			item.put("requestDate", volAppDto.getRequestDate());
+			//회원정보 가져오기
+			MemberDto member = memberService.getMemberByMemId(volAppDto.getMemberId());
+			item.put("memberId", member.getMemberId());
+			item.put("memberName", member.getMemberName());
+			item.put("memberTel", member.getTel());
+			//봉사프로그램 정보 가져오기
+			VolProgramDto volPrgm = volPrgmService.getVolPgrmByPgrmNo(volAppDto.getProgramNo());
+			item.put("volProgramName", volPrgm.getProgramTitle());
+			//item(Map 데이터)를 items(리스트)에 넣어주기
+			items.add(item);
+		}
+		//응답 생성
+		result.put("result", "success");
+		result.put("pager", pager);
+		result.put("items", items);
+		
+		return result;
+	}
 	
 }

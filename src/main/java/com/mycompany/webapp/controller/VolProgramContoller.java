@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.webapp.dto.Pager;
@@ -39,6 +40,9 @@ public class VolProgramContoller {
 	// 봉사 프로그램 목록 조회
 	@GetMapping("/get_vol_program_list")
 	public Map<String, Object> list(SearchIndex searchIndex) {
+		if(searchIndex.getPageNo() == 0) {
+			searchIndex.setPageNo(1);
+		}
 		log.info(searchIndex.toString());
 		Map<String, Object> map = new HashMap<>();
 		int totalRows = volService.getVolCount(searchIndex);
@@ -149,7 +153,7 @@ public class VolProgramContoller {
 	//------------------------------------------------------------------------------------------
 	//관심 봉사프로그램 목록 가져오기
 	@GetMapping("/get_interest_program_list")
-	public Map<String, Object> getInterestProgramList(Authentication authentication, int pageNo) {
+	public Map<String, Object> getInterestProgramList(Authentication authentication, @RequestParam(defaultValue = "1") int pageNo) {
 		
 		Map<String, Object> result = new HashMap<>();
 		

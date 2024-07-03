@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mycompany.webapp.dao.VolAppDetailDao;
 import com.mycompany.webapp.dao.VolProgramDao;
+import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.SearchIndex;
 import com.mycompany.webapp.dto.VolAppDetailDto;
@@ -64,6 +65,29 @@ public class VolParticipateService {
 		}
 		return volAppDetailList;
 	}
+	//신청내역 취소하기(삭제 X, 상태 변경하기)
+	public int updateVolApplStts(VolAppDetailDto volAppDtlDto) {
+		return volAppDetailDao.updateVolAppStts(volAppDtlDto);
+	}
+	//봉사프로그램에 신청한 신청인 목록 가져오기
+	public List<MemberDto> getApplicantList(int programNo) {
+		return volAppDetailDao.selectApplicantList(programNo);
+	}
+	//봉사실적 승인 요청하기
+	public int requestVolPerform(VolAppDetailDto volAppDtlDto) {
+		return volAppDetailDao.updateVolApplToRqstPerform(volAppDtlDto);
+	}
+	//봉사실적승인요청 총 갯수 가져오기
+	public int getPerformRqstCnt() {
+		return volAppDetailDao.selectPerformRqstCnt();
+	}
+	//봉사실적 승인 요청목록 가져오기
+	public List<VolAppDetailDto> getPerformRqstList(Pager pager) {
+		return volAppDetailDao.selectPerformRqstList(pager);
+	}
 	//------------------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------------------
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.mycompany.webapp.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,11 +8,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.SearchIndex;
 import com.mycompany.webapp.dto.VolAppDetailDto;
@@ -68,6 +72,9 @@ public class VolParticipateController {
 	//봉사프로그램 신청내역 조회
 	@GetMapping("/get_vol_apply_detail_list")
 	public Map<String, Object> getVolApplyDetailList(Authentication authentication, SearchIndex searchIndex) {
+		if(searchIndex.getPageNo() == 0) {
+			searchIndex.setPageNo(1);
+		}
 		Map<String, Object> result = new HashMap<>();
 		//Pager객체 생성을 위한 검색 결과 총 갯수를 가져온다.
 		int totalRows = volPtcpService.getVolApplyTotalCnt(authentication.getName(), searchIndex);
@@ -80,4 +87,54 @@ public class VolParticipateController {
 		result.put("volApplList", volApplList);
 		return result;
 	}
+	
+	//봉사프로그램 신청 취소
+	@PatchMapping("/cancel_vol_application")
+	public Map<String, Object> cancelVolApplication(Authentication authentication, int programNo) {
+		Map<String, Object> result = new HashMap<>();
+		//Dto객체 세팅
+		VolAppDetailDto volAppDtlDto = new VolAppDetailDto();
+		volAppDtlDto.setMemberId(authentication.getName());
+		volAppDtlDto.setProgramNo(programNo);
+		volAppDtlDto.setSttsNo(2);
+		
+		int updatedRow = volPtcpService.updateVolApplStts(volAppDtlDto);
+		if(updatedRow != 0) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "failed");
+		}
+		return result;
+	}
+	
+	//봉사프로그램 실적 승인 요청
+	@PatchMapping("/request_vol_perform")
+	public Map<String, Object> requestVolPerform(Authentication authentication, VolAppDetailDto volAppDtlDto) {
+		Map<String, Object> result = new HashMap<>();
+		//Dto객체 세팅
+		volAppDtlDto.setMemberId(authentication.getName());
+		volAppDtlDto.setSttsNo(5);
+		
+		if(volAppDtlDto.getBattachFile() != null && !volAppDtlDto.getBattachFile().isEmpty()) {
+			MultipartFile mf = volAppDtlDto.getBattachFile();
+			volAppDtlDto.setBattachOname(mf.getOriginalFilename());
+			volAppDtlDto.setBattachType(mf.getContentType());
+			try {
+				volAppDtlDto.setBattachData(mf.getBytes());
+			} catch (IOException e) {
+			}
+		}
+		
+		int updatedRow = volPtcpService.requestVolPerform(volAppDtlDto);
+		
+		if(updatedRow > 0) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "failed");
+		}
+		
+		return result;
+	}
+	
+
 }

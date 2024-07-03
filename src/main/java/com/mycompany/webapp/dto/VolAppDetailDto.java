@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -14,9 +15,13 @@ public class VolAppDetailDto {
 	private int sttsNo;
 	private int revWritten;
 	private String battachOname;
-	private byte battachData;
+	private byte[] battachData;
 	private String battachType;
 	private String rejectReason;
+	private Date requestDate;
+	private String requestContent;
+	
+	private MultipartFile battachFile;
 	
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private List<Date> dateList;

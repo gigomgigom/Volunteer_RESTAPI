@@ -17,5 +17,11 @@ public class MemberService {
 		memberDao.insertMember(member);
 		
 	}
+	
+	
+	//회원 아이디를 통해 회원정보 가져오기
+	public MemberDto getMemberByMemId(String memberId) {
+		return memberDao.selectByMemberId(memberId);
+	}
 
 }
