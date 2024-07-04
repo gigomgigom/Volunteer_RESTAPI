@@ -61,4 +61,49 @@
 	<delete id="deleteBoard" parameterType="int">
 		delete from intergrated_board where board_no= #{boardNo}
 	</delete>
+	<select id="selectBoardCount" resultType="int">
+		select count(*) from
+		intergrated_board where board_ctg = #{ctgNo}
+		<if test="keyword != null">
+			<if test="keywordIndex == 1">
+				and title LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="keywordIndex == 2">
+				and member_id = #{keyword}
+			</if>
+			<if test="keywordIndex == 3">
+				and content LIKE '%' || #{keyword} || '%'
+			</if>
+		</if>
+	</select>
+	<select id="selectBoardList" resultType="board">
+		select rnum, board_no, member_id, title, content, board_date, hit_cnt, admin_reply
+		from (
+		select rownum as
+		rnum, board_no, member_id, title, content, board_date, hit_cnt, admin_reply
+		from (
+		select
+		board_no, member_id, title, content, board_date, hit_cnt, admin_reply
+		from intergrated_board
+		where board_ctg = #{searchIndex.ctgNo}
+		<if test="searchIndex.keyword != null">
+			<if test="searchIndex.keywordIndex == 1">
+				and title LIKE '%' || #{searchIndex.keyword} || '%'
+			</if>
+			<if test="searchIndex.keywordIndex == 2">
+				 and member_id = #{searchIndex.keyword}
+			</if>
+			<if test="searchIndex.keywordIndex == 3">
+				and content LIKE '%' || #{searchIndex.keyword} || '%'
+			</if>
+		</if>
+		order by board_no desc
+		)
+		where rownum <![CDATA[<=]]>
+		#{pager.endRowNo}
+		)
+		where rnum <![CDATA[>=]]>
+		#{pager.startRowNo}
+	</select>
+	
 </mapper>

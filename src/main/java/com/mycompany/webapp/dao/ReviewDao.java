@@ -1,9 +1,13 @@
 package com.mycompany.webapp.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.ReviewDto;
 import com.mycompany.webapp.dto.ReviewReplyDto;
+import com.mycompany.webapp.dto.SearchIndex;
 
 @Mapper
 public interface ReviewDao {
@@ -19,5 +23,11 @@ public interface ReviewDao {
 	int deleteReview(int boardNo);
 
 	int insertReviewReply(ReviewReplyDto reviewReply);
+	
+	public List<ReviewReplyDto> selectReviewReplyByNo(int boardNo);
+
+	int selectReviewCount(SearchIndex searchIndex);
+
+	List<ReviewDto> selectReviewList(SearchIndex searchIndex, Pager pager);
 
 }

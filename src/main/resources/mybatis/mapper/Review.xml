@@ -67,5 +67,55 @@
 		insert into review_reply (reply_no, board_no, member_id, content, reply_date, pre_reply_no)
 		values (#{replyNo}, #{boardNo}, #{memberId}, #{content}, sysdate, #{preReplyNo})
 	</insert>
+	<select id="selectReviewReplyByNo" resultType="reviewReply">
+		select * from review_reply where board_no = #{boardNo} ORDER BY reply_No
+	</select>
+	<select id="selectReviewCount" resultType="int">
+		select count(*) from
+		vol_review 
+		<if test="keyword != null">
+			<if test="keywordIndex == 1">
+				where title LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="keywordIndex == 2">
+				where member_id = #{keyword}
+			</if>
+			<if test="keywordIndex == 3">
+				where content LIKE '%' || #{keyword} || '%'
+			</if>
+		</if>
+	</select>
+	<select id="selectReviewList" resultType="review">
+		select rnum, board_no, program_no, member_id, title, content, hit_cnt,
+		board_date
+		from (
+		select rownum as
+		rnum, board_no, program_no, member_id, title, content, hit_cnt,
+		board_date
+		from (
+		select
+		board_no, program_no, member_id, title, content, hit_cnt,
+		board_date
+		from vol_review 
+		<if test="searchIndex.keyword != null">
+			<if test="searchIndex.keywordIndex == 1">
+				where title LIKE '%' || #{searchIndex.keyword} || '%'
+			</if>
+			<if test="searchIndex.keywordIndex == 2">
+				where member_id = #{searchIndex.keyword}
+			</if>
+			<if test="searchIndex.keywordIndex == 3">
+				where content LIKE '%' || #{searchIndex.keyword} || '%'
+			</if>
+		</if>
+		order by board_no desc
+		)
+		where rownum <![CDATA[<=]]>
+		#{pager.endRowNo}
+		)
+		where rnum <![CDATA[>=]]>
+		#{pager.startRowNo}
+	</select>
+	
 	
 </mapper>

@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.webapp.dao.LikeUnlikeDao">
-
-
+	
+	<select id="selectLikeTable" resultType="likeUnlike">
+		select board_no, member_id, like_stts from likeunlike
+		where board_no = #{review.boardNo} and member_id = #{memberId}
+	</select>
+	<insert id="insertLikeTable">
+		insert into (board_no, member_id, like_stts)
+		values (#{review.boardNo},#{memberId},#{review.likeStts})
+	</insert>
+	<update id="updateLikeTable">
+		update likeunlike set like_stts = #{review.likeStts} 
+		where board_no = #{review.boardNo} and member_id = #{memberId}
+	</update>
+	<select id="selectLikeCount" resultType="int">
+		select count (*) from likeunlike
+		where board_no = #{boardNo} and like_stts = 1  
+	</select>
+	<select id="selectUnLikeCount" resultType="int">
+		select count (*) from likeunlike
+		where board_no = #{boardNo} and like_stts = 0
+	</select>
 </mapper>

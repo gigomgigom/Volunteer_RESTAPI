@@ -1,8 +1,13 @@
 package com.mycompany.webapp.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mycompany.webapp.dto.BoardDto;
+import com.mycompany.webapp.dto.Pager;
+import com.mycompany.webapp.dto.ReviewReplyDto;
+import com.mycompany.webapp.dto.SearchIndex;
 
 @Mapper
 public interface BoardDao {
@@ -15,5 +20,9 @@ public interface BoardDao {
 	public int updateHitCntByNo(int boardNo);
 
 	public int deleteBoard(int boardNo);
-	
+
+	public int selectBoardCount(SearchIndex searchIndex);
+
+	public List<BoardDto> selectBoardList(SearchIndex searchIndex, Pager pager);
+
 }

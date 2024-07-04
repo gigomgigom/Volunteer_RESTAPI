@@ -23,5 +23,8 @@ public class ReviewDto {
 	private String imgType;
 	private MultipartFile battachFile;
 	private MultipartFile battachImg;
+	
+	//좋아요 받아오기 위한 필드 선언
+	private int likeStts;
 
 }

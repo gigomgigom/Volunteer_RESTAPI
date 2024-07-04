@@ -15,5 +15,6 @@
       <typeAlias alias="volAppDetail" type="com.mycompany.webapp.dto.VolAppDetailDto"/>
       <typeAlias alias="reviewReply" type="com.mycompany.webapp.dto.ReviewReplyDto"/>
       <typeAlias alias="pager" type="com.mycompany.webapp.dto.Pager"/>
+      <typeAlias alias="likeUnlike" type="com.mycompany.webapp.dto.LikeUnlikeDto"/>
    </typeAliases>
 </configuration>
