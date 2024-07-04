@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.webapp.dao.EduAppDetailDao">
-
+	
+	<select id="selectIsEduApplAlrdyExist" resultType="int">
+		select count(*)
+		from education_application_detail
+		where member_id = #{memberId} and program_no = #{programNo}
+	</select>
+	<insert id="insertEduApplDtl">
+		insert into education_application_detail
+		(
+			member_id, program_no, stts_no
+		)
+		values
+		(
+			#{memberId}, #{programNo}, 1
+		)
+	</insert>
 </mapper>

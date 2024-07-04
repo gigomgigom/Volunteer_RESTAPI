@@ -53,7 +53,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/login")
-	public Map<String, String> userLogin(String memberId, String memberPw) {
+	public Map<String, Object> userLogin(String memberId, String memberPw) {
 		//사용자 상세 정보 얻기
 		AppUserDetails userDetails = (AppUserDetails) appUserDetailsService.loadUserByUsername(memberId);
 		//비밀번호 체크
@@ -66,7 +66,7 @@ public class AuthController {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
 		//응답 생성
-		Map<String, String> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		if(checkResult) {
 			//AccessToken을 생성
 			String accessToken = jwtProvider.createAccessToken(memberId, userDetails.getMember().getMrole());
@@ -74,6 +74,7 @@ public class AuthController {
 			//JSON 응답 구성
 			map.put("result", "success");
 			map.put("mid", memberId);
+			map.put("mrole", userDetails.getAuthorities());
 			map.put("accessToken", accessToken);
 		} else {
 			map.put("result", "fail");

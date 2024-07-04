@@ -14,6 +14,7 @@ public class EduProgramDto {
 	private String content;
 	private String recruitRegion;
 	private int recruitCnt;
+	private int recruitStts;
 	private int applyCnt;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date recruitBgnDate;
@@ -34,7 +35,7 @@ public class EduProgramDto {
 	private String imgOname;
 	private byte[] imgData;
 	private String imgType;
-	private boolean enabled;
+	private int enabled;
 	private MultipartFile battachFile;
 	private MultipartFile battachImg;
  	

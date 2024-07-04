@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminService {
 	@Autowired 
 	private VolProgramDao volProgramDao;
+	@Autowired
 	private EduProgramDao eduProgramDao;
 	
 	public int registerVolProgram(VolProgramDto volProgram) {

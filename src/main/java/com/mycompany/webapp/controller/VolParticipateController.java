@@ -130,7 +130,6 @@ public class VolParticipateController {
 		} else {
 			result.put("result", "failed");
 		}
-		
 		return result;
 	}
 	
