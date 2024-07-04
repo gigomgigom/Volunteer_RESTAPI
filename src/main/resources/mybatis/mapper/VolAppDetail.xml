@@ -150,12 +150,109 @@
 		select rnum,
 		member_id, program_no, request_date
 		from (
-		select rownum as rnum, member_id, program_no, request_date
-		from volunteer_application_detail
+		select rownum as
+		rnum, member_id, program_no, request_date
+		from
+		volunteer_application_detail
 		where stts_no = 5
-		and rownum <![CDATA[<=]]> 10
+		and rownum <![CDATA[<=]]>
+		10
 		order by request_date
 		)
-		where rnum <![CDATA[>=]]> 1
+		where rnum <![CDATA[>=]]>
+		1
+	</select>
+	<select id="selectVolAppDetail" resultType="volAppDetail">
+		select
+		request_content, battach_oname
+		from volunteer_application_detail
+		where
+		member_id = #{memberId} and program_no = #{programNo}
+	</select>
+	<select id="selectVolAppDetailFile" resultType="volAppDetail">
+		select
+		battach_oname, battach_data, battach_type
+		from
+		volunteer_application_detail
+		where member_id = #{memberId} and
+		program_no = #{programNo}
+	</select>
+	<update id="updateVolAppSttsToRejectRqst">
+		update volunteer_application_detail
+		set
+		stts_no =
+		#{sttsNo},
+		reject_reason = #{rejectReason}
+		where member_id = #{memberId}
+		and program_no = #{programNo}
+	</update>
+	<select id="selectVolPerformTotCnt" resultType="int">
+		select count(*)
+		from volunteer_program vp
+		inner join (
+		select * from
+		volunteer_application_detail where member_id = #{memberId}
+		) vad
+		on
+		vp.program_no = vad.program_no
+		<where>
+			vad.stts_no = 6
+			<if test="searchIndex.startDate != null">
+				and
+				(#{searchIndex.startDate} <![CDATA[<=]]>
+				vp.act_end_date)
+				and
+				(#{searchIndex.endDate} <![CDATA[>=]]>
+				vp.act_bgn_date)
+			</if>
+			<if
+				test="searchIndex.keyword != null and searchIndex.keyword != ''">
+				and vp.program_title like '%' || #{searchIndex.keyword} || '%'
+			</if>
+			<if
+				test="searchIndex.recruitCenter != null and searchIndex.recruitCenter != ''">
+				and vp.recruit_name like '%' || #{searchIndex.recruitCenter} ||
+				'%'
+			</if>
+		</where>
+	</select>
+	<select id="selectVolPerformList" resultType="volAppDetail">
+		select rnum, program_no, member_id, stts_no, rev_written
+		from (
+		select
+		rownum as rnum, vad.program_no, member_id, stts_no, rev_written
+		from
+		volunteer_program vp
+		inner join (
+		select * from
+		volunteer_application_detail where member_id = #{memberId}
+		) vad
+		on
+		vp.program_no = vad.program_no
+		<where>
+			rownum <![CDATA[<=]]>
+			#{pager.endRowNo} and vad.stts_no = 6
+			<if test="searchIndex.startDate != null">
+				and
+				( #{searchIndex.startDate} <![CDATA[<=]]>
+				vp.act_end_date)
+				and
+				( #{searchIndex.endDate} <![CDATA[>=]]>
+				vp.act_bgn_date )
+			</if>
+			<if
+				test="searchIndex.keyword != null and searchIndex.keyword != ''">
+				and vp.program_title like '%' || #{searchIndex.keyword} || '%'
+			</if>
+			<if
+				test="searchIndex.recruitCenter != null and searchIndex.recruitCenter != ''">
+				and vp.recruit_name like '%' || #{searchIndex.recruitCenter} ||
+				'%'
+			</if>
+		</where>
+		)
+		<where>
+			rnum <![CDATA[>=]]>#{pager.startRowNo}
+		</where>
 	</select>
 </mapper>

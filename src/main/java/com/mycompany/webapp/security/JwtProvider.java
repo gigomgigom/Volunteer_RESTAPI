@@ -98,23 +98,6 @@ public class JwtProvider {
 	    return autority;
 	}	
 	
-	public static final void main(String[] args) {
-		JwtProvider jwtProvider = new JwtProvider("com.mycompany.jsonwebtoken.kosacourse");
-		
-		String accessToken = jwtProvider.createAccessToken("user", "ROLE_USER");
-		log.info("AccessToken: " + accessToken);
-		
-		Jws<Claims> jws = jwtProvider.validateToken(accessToken);
-		log.info("validate: " + ((jws!=null)? true : false));
-		
-		if(jws != null) {
-			String userId = jwtProvider.getUserId(jws);
-			log.info("userId: " + userId);
-			
-			String autority = jwtProvider.getAuthority(jws);
-			log.info("autority: " + autority);
-		}
-	}
 }
 
 

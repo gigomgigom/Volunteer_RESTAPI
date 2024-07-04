@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.SearchIndex;
 import com.mycompany.webapp.dto.VolAppDetailDto;
@@ -43,7 +42,6 @@ public class VolParticipateController {
 		volAppDetail.setMemberId(authentication.getName());
 		int createdRows = 0;
 		VolProgramDto volDto = volService.getVolPgrmByPgrmNo(volAppDetail.getProgramNo());
-		
 		int existingRows = volPtcpService.findExistingApplyDetail(volAppDetail);
 		//이미 신청한 봉사프로그램이 존재하는지 여부에 따라 응답 생성
 		if(existingRows != 0) {
@@ -134,6 +132,19 @@ public class VolParticipateController {
 		}
 		
 		return result;
+	}
+	
+	//봉사참여실적 목록 조회
+	@GetMapping("/get_vol_perform_list")
+	public Map<String, Object> getVolPerformList(Authentication authentication, SearchIndex searchIndex) {
+		log.info(searchIndex.toString());
+		if(searchIndex.getPageNo() == 0) {
+			searchIndex.setPageNo(1);
+		}
+		Map<String, Object> resultFromService = volPtcpService.getVolPerformList(authentication.getName(), searchIndex);
+		
+		
+		return resultFromService;
 	}
 	
 

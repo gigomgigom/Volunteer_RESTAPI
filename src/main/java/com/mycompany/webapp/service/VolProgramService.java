@@ -35,13 +35,10 @@ public class VolProgramService {
 		return volDao.selectVolProgramByNo(programNo);
 	}
 	
-	
-	@Autowired
-	private InterestProgramDao IntrPrgmDao;
-	
 	//관심 등록
 	//----------------------------------------------------------
-	
+	@Autowired
+	private InterestProgramDao IntrPrgmDao;
 	
 	//요청한 사용자가 이미 해당 프로그램을 관심등록을 했는지 확인
 	public int findInterestProgramHistory(int programNo, String memberId) {

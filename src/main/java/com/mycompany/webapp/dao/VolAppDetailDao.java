@@ -22,7 +22,7 @@ public interface VolAppDetailDao {
 	public int selectVolApplTotalCnt(String memberId, SearchIndex searchIndex);
 	//봉사 신청내역 목록 가져오기
 	public List<VolAppDetailDto> selectVolApplyDetailList(String memberId, SearchIndex searchIndex, Pager pager);
-	//봉사 신청내역 상태 수정(단순 상태만 수정)
+	//봉사 신청내역 상태 수정(단순 상태만 수정, 봉사실적 승인할때에 사용되기도 함)
 	public int updateVolAppStts(VolAppDetailDto volAppDtlDto);
 	//봉사실적 승인 요청
 	public int updateVolApplToRqstPerform(VolAppDetailDto volAppDtlDto);
@@ -32,5 +32,15 @@ public interface VolAppDetailDao {
 	public int selectPerformRqstCnt();
 	//봉사 실적 승인요청 목록 가져오기
 	public List<VolAppDetailDto> selectPerformRqstList(Pager pager);
+	//봉사 신청내역 상세 가져오기
+	public VolAppDetailDto selectVolAppDetail(String memberId, int programNo);
+	//봉사 실적 승인요청 파일 데이터 가져오기
+	public VolAppDetailDto selectVolAppDetailFile(String memberId, int programNo);
+	//봉사 실적 승인요청 거부하기
+	public int updateVolAppSttsToRejectRqst(VolAppDetailDto volAppDtl);
+	//봉사 실적 총 갯수 가져오기
+	public int selectVolPerformTotCnt(String memberId, SearchIndex searchIndex);
+	//봉사 실적 목록 가져오기
+	public List<VolAppDetailDto> selectVolPerformList(String memberId, SearchIndex searchIndex, Pager pager);
 
 }

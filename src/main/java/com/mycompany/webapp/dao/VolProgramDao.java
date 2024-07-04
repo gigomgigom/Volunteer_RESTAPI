@@ -20,7 +20,9 @@ public interface VolProgramDao {
 	public VolProgramDto selectVolProgramByNo(int programNo);
 	//봉사프로그램 수정하기
 	public int updateVolProgram(VolProgramDto volProgram);
-
-	public int deleteVolProgram(int programNo);
+	//봉사프로그램 삭제(비활성화)하기
+	public int updateVolProgramEnabled(int programNo);
+	//봉사프로그램 총 신청인 수 업데이트
+	public void updateVolProgramApplCnt(boolean isFull, int programNo);
 
 }

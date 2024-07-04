@@ -44,11 +44,11 @@ public class AdminService {
 	}
 
 	public int removeVolProgram(int programNo) {
-		return volProgramDao.deleteVolProgram(programNo);
+		return volProgramDao.updateVolProgramEnabled(programNo);
 	}
 
 	public int removeEduProgram(int programNo) {
-		return eduProgramDao.deleteEduProgram(programNo);
+		return eduProgramDao.updateEduProgramEnabled(programNo);
 	}
 
 }
