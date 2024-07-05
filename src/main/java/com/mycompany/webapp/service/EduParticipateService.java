@@ -1,13 +1,16 @@
 package com.mycompany.webapp.service;
 
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.mycompany.webapp.dao.EduAppDetailDao;
+import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dao.EduAppDetailDao;
 import com.mycompany.webapp.dao.EduProgramDao;
 import com.mycompany.webapp.dto.EduAppDetailDto;
@@ -19,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class EduParticipateService {
+
 	
 	@Autowired
 	private EduAppDetailDao eduAppDtlDao;
@@ -110,7 +114,10 @@ public class EduParticipateService {
 		
 		return result;
 	}
-	
+	// 봉사프로그램에 신청한 신청인 목록 가져오기
+	public List<MemberDto> getApplicantList(int programNo) {
+		return eduAppDtlDao.selectApplicantList(programNo);
+	}
 
 
 }

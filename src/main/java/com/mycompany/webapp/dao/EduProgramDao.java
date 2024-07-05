@@ -25,4 +25,6 @@ public interface EduProgramDao {
 
 	int updateApplyCnt(boolean isFull, int programNo);
 
+	
+
 }

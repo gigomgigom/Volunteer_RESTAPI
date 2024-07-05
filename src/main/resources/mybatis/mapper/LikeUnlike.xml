@@ -7,7 +7,7 @@
 		where board_no = #{review.boardNo} and member_id = #{memberId}
 	</select>
 	<insert id="insertLikeTable">
-		insert into (board_no, member_id, like_stts)
+		insert into likeunlike(board_no, member_id, like_stts)
 		values (#{review.boardNo},#{memberId},#{review.likeStts})
 	</insert>
 	<update id="updateLikeTable">

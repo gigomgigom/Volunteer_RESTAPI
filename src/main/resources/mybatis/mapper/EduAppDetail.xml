@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.webapp.dao.EduAppDetailDao">
+
 	
 	<select id="selectIsEduApplAlrdyExist" resultType="int">
 		select count(*)
@@ -43,5 +44,23 @@
 			order by stts_no
 		)
 		where rnum <![CDATA[>=]]> #{pager.startRowNo}
+	</select>
+
+	<select id="selectApplicantList" resultType="member">
+		select
+		mem.member_id,
+		member_name, birthdate, tel, aff_center
+		from member mem
+		inner join (
+		select member_id
+		from education_application_detail
+		where
+		program_no = #{programNo}
+		and
+		stts_no != 2
+		) eduapp
+		on mem.member_id =
+		eduapp.member_id
+
 	</select>
 </mapper>

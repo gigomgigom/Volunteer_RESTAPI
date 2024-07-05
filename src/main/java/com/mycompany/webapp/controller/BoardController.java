@@ -35,7 +35,9 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 	@Autowired
 	private BoardService boardService;
-
+	
+	
+	//게시글 추가
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/create_board")
 	public BoardDto createBoard(BoardDto board, Authentication authentication) {
@@ -77,7 +79,8 @@ public class BoardController {
 		board.setImgData(null);
 		return board;
 	}
-
+	
+	//리뷰글 추가
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/create_review")
 	public ReviewDto createReview(ReviewDto review, Authentication authentication) {
@@ -303,6 +306,8 @@ public class BoardController {
 		Map<String, Object> map = new HashMap<>();
 		//회원의 아이디를 얻어오는 코드
 		String memberId = authentication.getName();
+		
+		log.info("memberId : " + memberId + "reveiw :" + review);
 		//현재 받아온 매개변수로 테이블이 존재하는지 확인하는 코드
 		LikeUnlikeDto likeTable = boardService.getLikeTable(review, memberId);
 		
@@ -333,8 +338,10 @@ public class BoardController {
 		Map<String, Integer> map = new HashMap<>();
 		int likeCount = boardService.getLikeCount(boardNo);
 		int unLikeCount = boardService.getUnlikeCount(boardNo);
+		int likeUnlikeCount = likeCount - unLikeCount;
 		map.put("likeCount", likeCount);
 		map.put("unLikeCount", unLikeCount);
+		map.put("likeUnlikeCount", likeUnlikeCount);
  		return map;
 	}
 	

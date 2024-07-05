@@ -9,12 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.Result;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +27,8 @@ import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.VolAppDetailDto;
 import com.mycompany.webapp.dto.VolProgramDto;
 import com.mycompany.webapp.service.AdminService;
+import com.mycompany.webapp.service.EduParticipateService;
+import com.mycompany.webapp.service.EduProgramService;
 import com.mycompany.webapp.service.MemberService;
 import com.mycompany.webapp.service.VolParticipateService;
 import com.mycompany.webapp.service.VolProgramService;
@@ -47,9 +45,13 @@ public class AdminController {
 	@Autowired
 	private VolParticipateService volPtcpService;
 	@Autowired
+	private EduParticipateService eduPtcpService;
+	@Autowired
 	private MemberService memberService;
 	@Autowired
 	private VolProgramService volPrgmService;
+	@Autowired
+	private EduProgramService eduPrgmService;
 
 	@PostMapping("/create_vol_program")
 	public Map<String, Object> createVolProgram(VolProgramDto volProgram) {
@@ -464,4 +466,21 @@ public class AdminController {
 		}
 		return result;
 	}
+	
+	//교육신청 회원목록 가져오기
+	@GetMapping("/get_edu_participant_list")
+	public Map<String, Object> getEduParticipantList(int programNo) {
+		Map<String, Object> result = new HashMap<>();
+		
+		List<MemberDto> applicantList = eduPtcpService.getApplicantList(programNo);
+		
+		if(applicantList != null) {
+			result.put("result", "success");
+			result.put("applicantList", applicantList);
+		} else {
+			result.put("result", "failed");
+		}
+		return result;
+	}
+	
 }
