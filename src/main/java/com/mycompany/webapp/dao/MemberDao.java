@@ -12,4 +12,7 @@ public interface MemberDao {
 	public int insertMember(MemberDto member);
 	public int selectTotMemCnt();
 	public List<MemberDto> selectMemList(Pager pager);
+	public int updateMemberInfo(MemberDto member);
+	public int updateMemberPassword(String memberId, String newPassword);
+	public int updateMemberEnabled(String memberId, int enabled);
 }

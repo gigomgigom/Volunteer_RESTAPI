@@ -28,4 +28,32 @@
 		)
 		where rnum <![CDATA[>=]]> #{startRowNo}
 	</select>
+	
+	<update id="updateMemberInfo" parameterType="member">
+		update member
+		set
+			post_no = #{postNo},
+			address = #{address},
+			address_detail = #{addressDetail},
+			tel = #{tel},
+			email = #{email},
+			aff_center = #{affCenter},
+			hope_ctg = #{hopeCtg}
+		where member_id = #{memberId}
+	</update>
+	
+	<update id="updateMemberPassword">
+		update member
+		set
+			member_pw = #{newPassword}
+		where
+			 member_id = #{memberId}
+	</update>
+	<update id = "updateMemberEnabled">
+		update member
+		set
+			menabled = #{enabled}
+		where 
+			member_id = #{memberId}
+	</update>
 </mapper>

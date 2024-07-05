@@ -58,9 +58,9 @@ public class AuthController {
 		AppUserDetails userDetails = (AppUserDetails) appUserDetailsService.loadUserByUsername(memberId);
 		//비밀번호 체크
 		PasswordEncoder passwordEncoder  = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		boolean checkResult = passwordEncoder.matches(memberPw, userDetails.getMember().getMemberPw());
+		boolean checkResult = passwordEncoder.matches(memberPw, userDetails.getMember().getMemberPw()) && userDetails.isEnabled();
 		//스프링 시큐리티 인증 처리
-		if(checkResult == true) {
+		if(checkResult) {
 			Authentication authentication = 
 					new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 			SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -74,7 +74,7 @@ public class AuthController {
 			//JSON 응답 구성
 			map.put("result", "success");
 			map.put("mid", memberId);
-			map.put("mrole", userDetails.getAuthorities());
+			map.put("mrole", userDetails.getMember().getMrole());
 			map.put("accessToken", accessToken);
 		} else {
 			map.put("result", "fail");

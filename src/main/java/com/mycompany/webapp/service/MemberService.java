@@ -1,9 +1,12 @@
 package com.mycompany.webapp.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.mycompany.webapp.dao.MemberDao;
 import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.Pager;
@@ -30,6 +33,41 @@ public class MemberService {
 	//회원 목록 가져오기
 	public List<MemberDto> getMemberList(Pager pager) {
 		return memberDao.selectMemList(pager);
+	}
+	//회원 정보 수정하기
+	public Map<String, Object> editMemberInfo(MemberDto member) {
+		Map<String, Object> result = new HashMap<>();
+		int updatedRow = memberDao.updateMemberInfo(member);
+		if(updatedRow > 0) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "failed");
+		}
+		return result;
+	}
+	//회원의 비밀번호 변경
+	public Map<String, Object> changeMemberPassword(String memberId, String newPassword) {
+		Map<String, Object> result = new HashMap<>();
+		int updatedRow = memberDao.updateMemberPassword(memberId, newPassword);
+		if(updatedRow > 0) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "failed");
+		}
+		return result;
+	}
+	//회원 탈퇴
+	public Map<String, Object> withdrawMember(String memberId) {
+		Map<String, Object> result = new HashMap<>();
+		
+		int updatedRow = memberDao.updateMemberEnabled(memberId, 0);
+		
+		if(updatedRow > 0) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "failed");
+		}
+		return result;
 	}
 
 }
