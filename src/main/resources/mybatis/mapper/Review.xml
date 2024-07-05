@@ -7,7 +7,7 @@
         <result property="programNo" column="program_no"/>
         <result property="memberId" column="member_id"/>
         <result property="title" column="title"/>
-        <result property="cotent" column="content"/>
+        <result property="content" column="content"/>
         <result property="hitCnt" column="hit_cnt"/>
         <result property="boardDate" column="board_date"/>
         <result property="battachOname" column="battach_oname"/>

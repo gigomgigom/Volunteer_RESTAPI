@@ -358,7 +358,7 @@ public class BoardController {
 	}
 	//통합게시판 첨부파일 다운로드
 	@GetMapping("/download_board_battach_file")
-	public void downloadBattach(int boardNo, HttpServletResponse response) {
+	public void boardDownloadBattach(int boardNo, HttpServletResponse response) {
 		BoardDto board = boardService.getBoard(boardNo);
 		if(board != null) {
 			try {
@@ -384,7 +384,7 @@ public class BoardController {
 	}
 	//통합게시판 이미지 다운로드, 이미지 출력
 	@GetMapping("/download_board_img_file")
-	public void downloadImg(int boardNo, HttpServletResponse response) {
+	public void boardDownloadImg(int boardNo, HttpServletResponse response) {
 		BoardDto board = boardService.getBoard(boardNo);
 		if(board != null) {
 			try {
@@ -409,9 +409,57 @@ public class BoardController {
 		}
 	}
 	//리뷰게시판 첨부파일 다운로드
-	
+	@GetMapping("/download_review_battach_file")
+	public void reviewDownloadBattach(int boardNo, HttpServletResponse response) {
+		ReviewDto review = boardService.getReview(boardNo);
+		if(review != null) {
+			try {
+				String fileName = new String(review.getBattachOname().getBytes("UTF-8"), "ISO-8859-1");
+				response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+
+			// 응답 Contents타입 설정
+			response.setContentType(review.getBattachType());
+			// 응답 바디에 파일 데이터를 출력
+			OutputStream os;
+			try {
+				os = response.getOutputStream();
+				os.write(review.getBattachData());
+				os.flush();
+				os.close();
+			} catch (IOException e) {
+				log.error(e.getMessage());
+			}
+		}
+	}
 	//리뷰게시판 이미지 다운로드, 이미지 출력
-	
+	@GetMapping("/download_review_img_file")
+	public void reviewDownloadImg(int boardNo, HttpServletResponse response) {
+		ReviewDto review = boardService.getReview(boardNo);
+		if(review != null) {
+			try {
+				String fileName = new String(review.getImgOname().getBytes("UTF-8"), "ISO-8859-1");
+				response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+
+			// 응답 Contents타입 설정
+			response.setContentType(review.getImgType());
+			// 응답 바디에 파일 데이터를 출력
+			OutputStream os;
+			try {
+				os = response.getOutputStream();
+				os.write(review.getImgData());
+				os.flush();
+				os.close();
+			} catch (IOException e) {
+				log.error(e.getMessage());
+			}
+		}
+	}
 	
 	
 	
