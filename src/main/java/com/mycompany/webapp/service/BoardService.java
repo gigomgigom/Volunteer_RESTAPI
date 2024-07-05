@@ -140,4 +140,12 @@ public class BoardService {
 		return likeUnlikeDao.selectUnLikeCount(boardNo);
 	}
 
+	public int getReviewCountByMember(SearchIndex searchIndex, String memberId) {
+		return reviewDao.selectReviewCountByMember(searchIndex, memberId);
+	}
+
+	public List<BoardDto> getReviewListByMember(SearchIndex searchIndex, Pager pager, String memberId) {
+		return reviewDao.selectReviewListByMember(searchIndex, pager, memberId);
+	}
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mycompany.webapp.dto.BoardDto;
 import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.ReviewDto;
 import com.mycompany.webapp.dto.ReviewReplyDto;
@@ -29,5 +30,9 @@ public interface ReviewDao {
 	int selectReviewCount(SearchIndex searchIndex);
 
 	List<ReviewDto> selectReviewList(SearchIndex searchIndex, Pager pager);
+
+	int selectReviewCountByMember(SearchIndex searchIndex, String memberId);
+
+	List<BoardDto> selectReviewListByMember(SearchIndex searchIndex, Pager pager, String memberId);
 
 }

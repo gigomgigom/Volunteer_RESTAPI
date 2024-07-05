@@ -116,6 +116,45 @@
 		where rnum <![CDATA[>=]]>
 		#{pager.startRowNo}
 	</select>
-	
+	<select id="selectReviewCountByMember" resultType="int">
+		select count(*) from
+		vol_review where member_id = #{memberId}
+		<if test="searchIndex.keyword != null">
+			<if test="searchIndex.keywordIndex == 1">
+				and title LIKE '%' || #{searchIndex.keyword} || '%'
+			</if>
+			<if test="searchIndex.keywordIndex == 3">
+				and content LIKE '%' || #{searchIndex.keyword} || '%'
+			</if>
+		</if>
+	</select>
+	<select id="selectReviewListByMember" resultType="review">
+		select rnum, board_no, program_no, member_id, title, content, hit_cnt,
+		board_date
+		from (
+		select rownum as
+		rnum, board_no, program_no, member_id, title, content, hit_cnt,
+		board_date
+		from (
+		select
+		board_no, program_no, member_id, title, content, hit_cnt,
+		board_date
+		from vol_review where member_id = #{memberId}
+		<if test="searchIndex.keyword != null">
+			<if test="searchIndex.keywordIndex == 1">
+				and title LIKE '%' || #{searchIndex.keyword} || '%'
+			</if>
+			<if test="searchIndex.keywordIndex == 3">
+				and content LIKE '%' || #{searchIndex.keyword} || '%'
+			</if>
+		</if>
+		order by board_no desc
+		)
+		where rownum <![CDATA[<=]]>
+		#{pager.endRowNo}
+		)
+		where rnum <![CDATA[>=]]>
+		#{pager.startRowNo}
+	</select>
 	
 </mapper>
