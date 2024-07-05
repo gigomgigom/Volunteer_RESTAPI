@@ -56,4 +56,9 @@
 		where 
 			member_id = #{memberId}
 	</update>
+	<select id="selectMemberByNameAndEmail" resultType="member">
+		select member_id, member_name, email
+		from member
+		where member_name = #{memberName} and email = #{email}
+	</select>
 </mapper>

@@ -34,6 +34,7 @@ public class AuthController {
 	@Autowired
 	private MemberService memberService;
 	
+	//회원가입
 	@PostMapping("/join")
 	public MemberDto join (@RequestBody MemberDto member) {
 		//비밀번호 암호화
@@ -52,12 +53,14 @@ public class AuthController {
 		return member;
 	}
 	
+	//로그인
 	@PostMapping("/login")
 	public Map<String, Object> userLogin(String memberId, String memberPw) {
 		//사용자 상세 정보 얻기
 		AppUserDetails userDetails = (AppUserDetails) appUserDetailsService.loadUserByUsername(memberId);
 		//비밀번호 체크
 		PasswordEncoder passwordEncoder  = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		//비밀번호가 일치하느냐 && 회원이 활성화 되어있느냐
 		boolean checkResult = passwordEncoder.matches(memberPw, userDetails.getMember().getMemberPw()) && userDetails.isEnabled();
 		//스프링 시큐리티 인증 처리
 		if(checkResult) {
@@ -80,5 +83,7 @@ public class AuthController {
 			map.put("result", "fail");
 		}
 		return map;
-	}	
+	}
+	
+	//아이디 찾기
 }

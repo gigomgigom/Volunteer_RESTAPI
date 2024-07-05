@@ -98,4 +98,31 @@ public class MemberController {
 		}
 		return result;
 	}
+	//회원 아이디 찾기
+	@GetMapping("/find_Id")
+	public Map<String, Object> findId(String memberName, String email) {
+		Map<String, Object> result;
+		if(memberName != null && email != null) {
+			result = memService.findIdMainProcess(memberName, email);
+		} else {
+			result = new HashMap<>();
+			result.put("result", "failed");
+			result.put("reason", "누락된 정보가 있습니다.");
+		}
+		
+		return result;
+	}
+	//회원 비밀번호찾기
+	@GetMapping("/find_password")
+	public Map<String, Object> findPassword(MemberDto member) {
+		Map<String, Object> result;
+		if(member.getMemberName() != null && member.getMemberId() != null && member.getEmail() != null) {
+			result = memService.findPWMainProcess(member);
+		} else {
+			result = new HashMap<>();
+			result.put("result", "failed");
+			result.put("reason", "누락된 정보가 있습니다.");
+		}
+		return result;
+	}
 }
