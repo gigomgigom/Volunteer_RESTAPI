@@ -17,4 +17,31 @@
 			#{memberId}, #{programNo}, 1
 		)
 	</insert>
+	<update id="updateEduApplDtlStts">
+		update education_application_detail
+		set
+		stts_no = #{sttsNo}
+		where 
+		member_id = #{memberId}
+		and
+		program_no = #{programNo}
+		and
+		stts_no = 1
+	</update>
+	<select id="selectEduApplCnt">
+		select count(*)
+		from education_application_detail
+		where member_id = #{memberId}
+	</select>
+	<select id="selectEduApplDtlList" resultType="eduAppDetail">
+		select rnum, program_no, stts_no
+		from (
+			select rownum as rnum, program_no, stts_no
+			from education_application_detail
+			where 
+				member_id = #{memberId} and rownum <![CDATA[<=]]> #{pager.endRowNo}
+			order by stts_no
+		)
+		where rnum <![CDATA[>=]]> #{pager.startRowNo}
+	</select>
 </mapper>
