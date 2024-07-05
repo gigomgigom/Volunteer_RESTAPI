@@ -1,15 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.webapp.dao.MemberDao">
-	<insert id="insertMember" parameterType="member">
-		insert into member(member_id, member_name, birthdate, member_pw, post_no, address, address_Detail, tel, email, aff_center, hope_ctg, menabled, mrole)
-		values (#{memberId}, #{memberName}, #{birthdate}, #{memberPw}, #{postNo}, #{address}, #{addressDetail}, #{tel}, #{email}, #{affCenter}, #{hopeCtg}, #{menabled}, #{mrole})
-	</insert>
-	
-	<select id="selectByMemberId" parameterType="String" resultType="Member">
-		select member_id, member_name, birthdate, member_pw, post_no, address, address_detail, tel, email, aff_center, hope_ctg, menabled, mrole
-		from member
-		where member_id = #{memberId}
-	</select>
+	 <insert id="insertMember" parameterType="member">
+        insert into member(member_id, member_name, birthdate, member_pw, post_no, address, address_Detail, tel, email, aff_center, hope_ctg, menabled, mrole)
+        values (#{memberId}, #{memberName}, #{birthdate}, #{memberPw}, #{postNo}, #{address}, #{addressDetail}, #{tel}, #{email}, #{affCenter}, #{hopeCtg}, #{menabled}, #{mrole})
+    </insert>
+    
+    <select id="selectByMemberId" parameterType="String" resultType="Member">
+        select member_id, member_name, birthdate, member_pw, post_no, address, address_detail, tel, email, aff_center, hope_ctg, menabled, mrole
+        from member
+        where member_id = #{memberId}
+    </select>
 
+    <select id="getMemberCount" resultType="int">
+        select count(*)
+        from member
+        where mrole='ROLE_USER'
+    </select>
+    
+    <select id="getMemberList" parameterType="pager" resultType="member">
+        <![CDATA[
+        select rnum, member_id, member_name, tel
+        from (
+            select rownum as rnum, member_id, member_name, tel
+                from (
+                    select member_id, member_name, tel
+                    from member
+                    where mrole='ROLE_USER'
+                    order by member_id asc
+                    )
+            where rownum<=#{endRowNo}
+            ) 
+        where rnum>=#{startRowNo}    
+        ]]>
+    </select>
+    
+    <select id="findIdByPhoneNum" resultType="member">
+        select member_id, member_name, tel, email
+        from member
+        where member_name=#{memberName} and tel=#{tel}
+    </select>
+
+	<select id="findIdByEmail" resultType="member">
+		select member_id, member_name, tel, email
+		from member
+		where member_name=#{memberName} and email=#{email}
+	</select>
+    
+    
+    <select id="findPwByPhoneNum">
+        select member_pw, member_name, member_id, tel, email
+        from member
+        where member_name=#{memberName} and member_id=#{memberId} and tel=#{tel}
+    </select>
+    
+    <update id="updatePw">
+		update member
+		set member_pw = #{password}
+		where member_id = #{memberId}
+    </update>
 </mapper>

@@ -7,6 +7,7 @@ import com.mycompany.webapp.dto.EduProgramDto;
 @Mapper
 public interface EduProgramDao {
 
-	int insertEduProgram(EduProgramDto eduProgram);
+	public int insertEduProgram(EduProgramDto eduProgram);
 
+	public int updateEduProgram(EduProgramDto eduProgramDto);
 }

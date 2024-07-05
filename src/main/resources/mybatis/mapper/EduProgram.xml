@@ -42,4 +42,20 @@
         #{battachOname}, #{battachData}, #{battachType}, #{imgOname}, #{imgData}, #{imgType}, #{enabled}
     )
 	</insert>
+	
+	
+	<update id="updateEduProgram" parameterType="EduProgramDto">
+	update educational_program set program_title=#{programTitle}, content=#{content}
+	<if test="battachOname != null">
+			, battach_oname=#{battachOname}
+			, battach_type=#{battachType}
+			, battach_data=#{battachData}
+	</if>
+	<if test="imgOname != null">
+			, img_oname = #{imgOname}
+			, img_type = #{imgType}
+			, img_Data = #{imgData}
+	</if>
+		where program_no=#{programNo}
+	</update>
 </mapper>

@@ -18,6 +18,28 @@
         <result property="boardCtg" column="board_ctg"/>
     </resultMap>
 	
+	<select id="getCount">
+		select count(*)
+		from intergrated_board
+		where board_ctg=1
+	</select>
+	
+	<select id="getNoticeList" resultType="board" parameterType="pager">
+	 	<![CDATA[
+	 	select rnum, board_no, member_id board_no, title, board_date, hit_cnt 
+	 	from (
+	 		select rownum as rnum, board_no, member_id, title, board_date, hit_cnt
+	 			from (
+	 				select board_no, member_id, title, board_date, hit_cnt
+	 				from intergrated_board
+	 				where board_ctg=1
+	 				order by board_no asc
+	 			)
+	 			where rownum<=#{endRowNo}
+	 		) where rnum>=#{startRowNo}
+	 	]]>
+	</select>
+	
 	<insert id="insertBoard" parameterType="board">
 		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
 			select intergrated_bo_no.nextval from dual

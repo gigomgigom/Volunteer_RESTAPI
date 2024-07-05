@@ -1,6 +1,9 @@
 package com.mycompany.webapp.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,11 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mycompany.webapp.dto.BoardDto;
+import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.ReviewDto;
+import com.mycompany.webapp.dto.VolProgramDto;
 import com.mycompany.webapp.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +33,32 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
+	
+	// 공지사항 목록 가져오기
+	@GetMapping("/noticelist")
+	public Map<String, Object> list(@RequestParam(defaultValue="1") int pageNo) {
+		//페이징 대상인 전체 행수 얻기
+		int totalRows=boardService.getCount();
+		
+		//pager 객체 생성
+		Pager pager=new Pager(10, 5, totalRows, pageNo);
+		
+		//게시물 목록 가져오기
+		List<BoardDto> list = boardService.getNoticeList(pager);
+		//여러 객체 리턴 위해 map객체 생성
+		Map<String, Object> map= new HashMap<>();
+		
+		//게시물 목록 배열 
+		map.put("list", list);
+		//페이징 정보 객체
+		map.put("pager", pager);
+		
+		
+		//게시물 목록 배열 + 페이징 정보 객체
+		return map;
+	}
+	
+	
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/create_board")
 	public BoardDto createBoard(BoardDto board, Authentication authentication) {
@@ -230,4 +262,5 @@ public class BoardController {
 		}
 		return result;
 	}
+	
 }
