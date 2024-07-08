@@ -6,12 +6,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.PwChangeRequestDto;
+import com.mycompany.webapp.dto.VolOfUserDto;
 import com.mycompany.webapp.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +24,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/member")
 public class MemberController {
-    
     @Autowired
     private MemberService memberService; 
+    
+    // 사용자가 완료한 총 봉사 시간, 봉사갯수 가져오기
+    @GetMapping("/total-performed-vol/{memberId}")
+    public VolOfUserDto getTotalHoursOfUser(@PathVariable String memberId) {
+    	return memberService.getTotalVolOfUser(memberId);
+    }
+    
+    
+    // 사용자가 신청한 봉사 갯수
+    @GetMapping("/total-applied-vol/{memberId}")
+    public VolOfUserDto getAppliedVolOfUser(@PathVariable String memberId) {
+    	return memberService.getAppliedVolOfUser(memberId);
+    }
+    
+    
+    // 사용자가 신청한 교육 갯수 
+    
+    
     
     //이름, 폰번호로 아이디 찾기
     @PostMapping("/findIdByPhoneNum")

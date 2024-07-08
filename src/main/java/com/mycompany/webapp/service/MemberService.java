@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.mycompany.webapp.dao.MemberDao;
 import com.mycompany.webapp.dto.MemberDto;
+import com.mycompany.webapp.dto.VolOfUserDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +36,19 @@ public class MemberService {
 		member.setMemberPw(passwordEncoder.encode(member.getMemberPw()));
 		memberDao.insertMember(member);
 	}
-
+	
+	//총 봉사시간 
+	public VolOfUserDto getTotalVolOfUser(String memberId) {
+		return memberDao.getTotalVolOfUser(memberId);		
+	}
+	
+	
+	// 신청한 봉사시간
+	public VolOfUserDto getAppliedVolOfUser(String memberId) {
+		return memberDao.getAppliedVolOfUser(memberId);
+	}
+	
+	
 	// 이름과 폰번호로 아이디 조회
 	public MemberDto findIdByPhoneNum(String memberName, String tel) {
 		return memberDao.findIdByPhoneNum(memberName, tel);
@@ -54,7 +67,7 @@ public class MemberService {
 
 	// 임시 비밀번호 발급 전체 과정 메소드
 	public void processTempPassword(String memberId, String email, String name) {
-		String tempPassword = generateTempPassword();
+		String tempPassword = this.generateTempPassword();
 		log.info("생성된 temp password: " + tempPassword);
 
 		this.updateTempPw(memberId, tempPassword);

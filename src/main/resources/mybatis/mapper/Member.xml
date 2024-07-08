@@ -6,6 +6,51 @@
         values (#{memberId}, #{memberName}, #{birthdate}, #{memberPw}, #{postNo}, #{address}, #{addressDetail}, #{tel}, #{email}, #{affCenter}, #{hopeCtg}, #{menabled}, #{mrole})
     </insert>
     
+    
+    
+    <select id ="getTotalVolOfUser"  resultType="VolOfUserDto">
+		SELECT member_id AS memberId, 
+		       SUM(daily_hours) AS totalHours, COUNT(DISTINCT PROGRAM_NO) AS totalPrograms
+		FROM (
+		    SELECT VAD.member_id, 
+		           VAD.program_no,
+		           ASCH.apply_date,
+		           (VP.act_end_time - VP.act_bgn_time) AS daily_hours
+				    FROM VOLUNTEER_APPLICATION_DETAIL VAD
+		    JOIN VOLUNTEER_PROGRAM VP ON VAD.program_no = VP.program_no 
+		    JOIN APPLY_SCHEDULE ASCH ON VAD.member_id = ASCH.member_id 
+		                             AND VAD.program_no = ASCH.program_no
+		    WHERE VAD.member_id ='태환짱1' AND VAD.stts_no = '6'
+		) 
+		GROUP BY member_id
+    </select>
+
+    
+     <select id ="getAppliedVolOfUser"  resultType="VolOfUserDto">
+		SELECT member_id AS memberId, 
+		       COUNT(DISTINCT PROGRAM_NO) AS appliedVolPrograms
+		FROM (
+		    SELECT VAD.member_id, 
+		           VAD.program_no,
+		           ASCH.apply_date,
+		           (VP.act_end_time - VP.act_bgn_time) AS daily_hours
+				    FROM VOLUNTEER_APPLICATION_DETAIL VAD
+		    JOIN VOLUNTEER_PROGRAM VP ON VAD.program_no = VP.program_no 
+		    JOIN APPLY_SCHEDULE ASCH ON VAD.member_id = ASCH.member_id 
+		                             AND VAD.program_no = ASCH.program_no
+		    WHERE VAD.member_id=#{memberId} AND VAD.stts_no = '1'
+		) 
+		GROUP BY member_id
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <select id="selectByMemberId" parameterType="String" resultType="Member">
         select member_id, member_name, birthdate, member_pw, post_no, address, address_detail, tel, email, aff_center, hope_ctg, menabled, mrole
         from member
