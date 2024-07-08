@@ -69,7 +69,8 @@ public class VolParticipateController {
 	
 	//봉사프로그램 신청내역 조회
 	@GetMapping("/get_vol_apply_detail_list")
-	public Map<String, Object> getVolApplyDetailList(Authentication authentication, SearchIndex searchIndex) {
+	public Map<String, Object> getVolApplyDetailList(SearchIndex searchIndex, Authentication authentication) {
+		log.info(searchIndex.toString());
 		if(searchIndex.getPageNo() == 0) {
 			searchIndex.setPageNo(1);
 		}
@@ -108,6 +109,7 @@ public class VolParticipateController {
 	//봉사프로그램 실적 승인 요청
 	@PatchMapping("/request_vol_perform")
 	public Map<String, Object> requestVolPerform(Authentication authentication, VolAppDetailDto volAppDtlDto) {
+		log.info(volAppDtlDto.toString());
 		Map<String, Object> result = new HashMap<>();
 		//Dto객체 세팅
 		volAppDtlDto.setMemberId(authentication.getName());

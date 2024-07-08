@@ -59,15 +59,16 @@
 	</select>
 
 	<select id="selectVolApplyDetailList" resultType="volAppDetail">
-		select rnum, program_no, member_id, stts_no, rev_written
+		select rnum, program_no, member_id, stts_no, rev_written, reject_reason
 		from (
 		select
-		rownum as rnum, vad.program_no, member_id, stts_no, rev_written
+		rownum as rnum, vad.program_no, member_id, stts_no, rev_written, reject_reason
 		from
 		volunteer_program vp
 		inner join (
 		select * from
 		volunteer_application_detail where member_id = #{memberId}
+		order by stts_no
 		) vad
 		on
 		vp.program_no = vad.program_no
@@ -90,6 +91,7 @@
 			and vp.recruit_name like '%' || #{searchIndex.recruitCenter} ||
 			'%'
 		</if>
+		order by stts_no
 		) where rnum <![CDATA[>=]]>
 		#{pager.startRowNo}
 	</select>
