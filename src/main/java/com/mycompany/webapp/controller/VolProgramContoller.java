@@ -154,7 +154,6 @@ public class VolProgramContoller {
 	//관심 봉사프로그램 목록 가져오기
 	@GetMapping("/get_interest_program_list")
 	public Map<String, Object> getInterestProgramList(Authentication authentication, @RequestParam(defaultValue = "1") int pageNo) {
-		
 		Map<String, Object> result = new HashMap<>();
 		
 		int totalRows = volService.getIntrPrgmCnt(authentication.getName());

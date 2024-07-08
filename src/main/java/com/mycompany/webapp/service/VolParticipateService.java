@@ -118,7 +118,7 @@ public class VolParticipateService {
 	public int rejectPerformRqst(VolAppDetailDto volAppDtl) {
 		return volAppDetailDao.updateVolAppSttsToRejectRqst(volAppDtl);
 	}
-	//봉사실적 총 갯수 가져오기
+	//봉사실적 총 목록 가져오기
 	public Map<String, Object> getVolPerformList(String memberId, SearchIndex searchIndex) {
 		Map<String, Object> result = new HashMap<>();
 		
@@ -127,7 +127,12 @@ public class VolParticipateService {
 		Pager pager = new Pager(10, 5, totalRows, searchIndex.getPageNo());
 		
 		List<VolAppDetailDto> volPerformList = volAppDetailDao.selectVolPerformList(memberId, searchIndex, pager);
-		
+		for(VolAppDetailDto volAppDtl : volPerformList) {
+			VolProgramDto volDto = volProgramDao.selectVolProgramByNo(volAppDtl.getProgramNo());
+			volDto.setBattachData(null);
+			volDto.setImgData(null);
+			volAppDtl.setVolDto(volDto);
+		}
 		result.put("pager", pager);
 		result.put("volPerformList", volPerformList);
 		

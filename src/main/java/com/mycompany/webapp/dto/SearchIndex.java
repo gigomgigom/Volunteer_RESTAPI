@@ -10,7 +10,10 @@ import lombok.Data;
 public class SearchIndex {
 	
 	//시작일자 - 종료일자
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 	//지역코드
 	private String regionNo;
