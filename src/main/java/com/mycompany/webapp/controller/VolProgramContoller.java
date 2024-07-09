@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.SearchIndex;
+import com.mycompany.webapp.dto.VolAppDetailDto;
 import com.mycompany.webapp.dto.VolProgramDto;
+import com.mycompany.webapp.service.VolParticipateService;
 import com.mycompany.webapp.service.VolProgramService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,8 @@ public class VolProgramContoller {
 
 	@Autowired
 	private VolProgramService volService;
+	@Autowired
+	private VolParticipateService volPtcpService;
 
 	//봉사프로그램
 	//------------------------------------------------------------------------------------------
@@ -62,8 +66,8 @@ public class VolProgramContoller {
 
 	// 봉사 프로그램 상세 조회
 	@GetMapping("/get_vol_program_detail")
-	public Map<String, Object> getVolProgramDetail(int programNo) {
-
+	public Map<String, Object> getVolProgramDetail(int programNo, Authentication authentication) {
+		
 		// 요청시 받아온 번호에 해당하는 봉사 프로그램 정보를 가져온다.
 		VolProgramDto volDto = volService.getVolPgrmByPgrmNo(programNo);
 		// 응답 생성
@@ -76,10 +80,25 @@ public class VolProgramContoller {
 				map.put("result", "failed"); // 비활성화된 Dto객체라는걸 알려주기
 				map.put("reason", "이미 삭제된 봉사프로그램입니다.");
 			} else {
-				// 성공 메세지 및 결과 응답
 				map.put("result", "success");
-				map.put("isInterestAdded", true);
-				map.put("isApplied", true);
+				// 성공 메세지 및 결과 응답
+				if(authentication != null) {
+					VolAppDetailDto volAppDtl = new VolAppDetailDto();
+					volAppDtl.setMemberId(authentication.getName());
+					volAppDtl.setProgramNo(programNo);
+					int findedRow = volPtcpService.findExistingApplyDetail(volAppDtl);
+					if(findedRow != 0) {
+						map.put("isApplied", true);
+					} else {
+						map.put("isApplied", false);
+					}
+					int findHistory = volService.findInterestProgramHistory(programNo, authentication.getName());
+					if(findHistory != 0) {
+						map.put("isInterestAdded", true);
+					} else {
+						map.put("isInterestAdded", false);
+					}
+				}
 				map.put("volProgram", volDto);
 			}
 		} else {
@@ -193,7 +212,7 @@ public class VolProgramContoller {
 	}
 	
 	//봉사 프로그램 관심취소
-	@DeleteMapping("/remove_interest_program")
+	@PutMapping("/remove_interest_program")
 	public Map<String, Object> removeInterestProgram(@RequestBody int[] programNoList, Authentication authentication) {
 		int deletedRows = 0;
 		Map<String, Object> result = new HashMap<>();

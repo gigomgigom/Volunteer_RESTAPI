@@ -75,14 +75,14 @@
 			and (act_bgn_date <![CDATA[<=]]> #{endDate})
 			and (act_end_date) <![CDATA[>=]]> #{startDate})
 		</if>
-		<if test="regionNo != null and regionNo != ''">
+		<if test="regionNo != 0">
 			and region_no = #{regionNo}
 		</if>
 		<if test="ctgNo != null and ctgNo != ''">
 			and program_ctg = #{ctgNo}
 		</if>
 		<if test="adultPosbl == 1">
-			and adult_posbl = 1>
+			and adult_posbl = 1
 		</if>
 		<if test="teenPosbl == 1">
 			and teen_posbl = 1
@@ -100,20 +100,20 @@
 	<!-- ㅇ============================================================================================ㅇ -->
 	<!-- ㅇ============================================================================================ㅇ -->
 	<select id="selectVolList" resultType="volProgram">
-		select rnum, program_no, program_title, act_bgn_date, act_end_date,
+		select rnum, program_no, program_title, act_bgn_date, act_end_date, recruit_stts,
 		act_bgn_time, act_end_time, recruit_bgn_date, recruit_end_date,
 		program_ctg, recruit_name, act_place, region_no
 		from (
 		select rownum as
 		rnum, program_no, program_title, act_bgn_date,
-		act_end_date,
+		act_end_date, recruit_stts,
 		act_bgn_time, act_end_time, recruit_bgn_date,
 		recruit_end_date,
 		program_ctg, recruit_name, act_place, region_no
 		from (
 		select
-		program_no, program_title, act_bgn_date, act_end_date, act_bgn_time,
-		act_end_time, recruit_bgn_date, recruit_end_date,
+		program_no, program_title, act_bgn_date, act_end_date, act_bgn_time, 
+		act_end_time, recruit_stts, recruit_bgn_date, recruit_end_date,
 		program_ctg,
 		recruit_name, act_place, region_no
 		from volunteer_program
@@ -130,7 +130,7 @@
 			and program_ctg = #{searchIndex.ctgNo}
 		</if>
 		<if test="searchIndex.adultPosbl == 1">
-			and adult_posbl = 1>
+			and adult_posbl = 1
 		</if>
 		<if test="searchIndex.teenPosbl == 1">
 			and teen_posbl = 1

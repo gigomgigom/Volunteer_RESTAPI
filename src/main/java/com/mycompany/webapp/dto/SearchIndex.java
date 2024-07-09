@@ -16,7 +16,7 @@ public class SearchIndex {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 	//지역코드
-	private String regionNo;
+	private int regionNo;
 	//분야코드
 	private String ctgNo;
 	//모집상태

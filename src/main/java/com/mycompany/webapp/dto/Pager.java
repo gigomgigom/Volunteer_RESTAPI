@@ -39,7 +39,7 @@ public class Pager {
 	      startPageNo = (groupNo-1) * pagesPerGroup + 1;
 	      
 	      endPageNo = startPageNo + pagesPerGroup - 1;
-	      if(groupNo == totalGroupNo) endPageNo = totalPageNo;
+	      if(groupNo == totalGroupNo || (groupNo == 1 && totalGroupNo == 0)) endPageNo = totalPageNo;
 	      
 	      pageArray = IntStream.rangeClosed(startPageNo, endPageNo).toArray();
 	      
