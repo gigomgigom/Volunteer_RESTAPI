@@ -18,6 +18,23 @@
         <result property="boardCtg" column="board_ctg"/>
     </resultMap>
 	
+
+	<!-- 메인에 공지사항 출력 -->
+	<select id="getNoticeListToMain" parameterType="board">
+	<![CDATA[
+	SELECT title, board_date as boardDate
+	FROM (
+	    SELECT title, board_date
+	    FROM INTERGRATED_BOARD
+	    WHERE BOARD_CTG = 1
+	    ORDER BY board_date DESC
+	)
+	WHERE ROWNUM <= 11
+		 	]]>
+	</select>
+
+
+
 	<select id="getCount">
 		select count(*)
 		from intergrated_board

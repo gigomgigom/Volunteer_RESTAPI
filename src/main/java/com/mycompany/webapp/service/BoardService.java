@@ -74,5 +74,8 @@ public class BoardService {
 		return boardDao.getNoticeList(pager);
 	}
 
-	
+	//메인에 공지사항 출력
+	public  List<BoardDto> getNoticeListToMain() {
+		return boardDao.getNoticeListToMain();
+	}
 }

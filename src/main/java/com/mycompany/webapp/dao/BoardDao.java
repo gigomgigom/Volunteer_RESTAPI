@@ -23,4 +23,7 @@ public interface BoardDao {
 	
 	public List<BoardDto> getNoticeList(Pager pager);
 	
+	
+	//메인에 공지사항 출력
+	public List<BoardDto> getNoticeListToMain();
 }

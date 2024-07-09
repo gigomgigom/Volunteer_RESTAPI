@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.mycompany.webapp.dao.VolProgramDao;
+import com.mycompany.webapp.dto.BoardDto;
 import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.VolProgramDto;
 
@@ -19,6 +20,7 @@ public class VolProgramService {
 	@Autowired
 	VolProgramDao volProgramDao; 
 	
+
 	//전체 행수 얻기
 	public int getCount() {
 		return volProgramDao.getcount();
@@ -30,8 +32,14 @@ public class VolProgramService {
 	}
 
 	
+	//봉사활동 상세 가져오기
 	public VolProgramDto getVolProgram(int programNo) {
 		return volProgramDao.getVolProgram(programNo);
+	}
+
+	//메인에 최신 봉사활동 출력
+	public  List<VolProgramDto> getVolProgramToMain() {
+		return volProgramDao.getVolProgramToMain();		
 	}
 
 }

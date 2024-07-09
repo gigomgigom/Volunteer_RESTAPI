@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.mycompany.webapp.dao.MemberDao;
+import com.mycompany.webapp.dto.EduOfUserDto;
 import com.mycompany.webapp.dto.MemberDto;
+import com.mycompany.webapp.dto.TodayVolunteersDto;
 import com.mycompany.webapp.dto.VolOfUserDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +39,7 @@ public class MemberService {
 		memberDao.insertMember(member);
 	}
 	
-	//총 봉사시간 
+	// 총 봉사시간 
 	public VolOfUserDto getTotalVolOfUser(String memberId) {
 		return memberDao.getTotalVolOfUser(memberId);		
 	}
@@ -47,6 +49,21 @@ public class MemberService {
 	public VolOfUserDto getAppliedVolOfUser(String memberId) {
 		return memberDao.getAppliedVolOfUser(memberId);
 	}
+	
+	
+	// 신청한 교육 갯수
+	public EduOfUserDto getAppliedEduOfUser(String memberId) {
+		return memberDao.getAppliedEduOfUser(memberId);
+	}
+	
+	// 오늘 봉사활동 하는 인원 수
+	public TodayVolunteersDto getTodayVolunteers() {
+		return memberDao.getTodayVolunteers();
+	}
+	
+	
+	////////////////// 아래는 회원 정보 찾기
+
 	
 	
 	// 이름과 폰번호로 아이디 조회

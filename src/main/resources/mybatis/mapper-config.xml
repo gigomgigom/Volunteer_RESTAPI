@@ -16,6 +16,8 @@
       <typeAlias alias="reviewReply" type="com.mycompany.webapp.dto.ReviewReplyDto"/>
       <typeAlias alias="EduProgramDto" type="com.mycompany.webapp.dto.EduProgramDto"/>
    	<typeAlias alias="VolOfUserDto" type="com.mycompany.webapp.dto.VolOfUserDto"/>
+    <typeAlias alias="EduOfUserDto" type="com.mycompany.webapp.dto.EduOfUserDto"/>
+    <typeAlias alias="TodayVolunteersDto" type="com.mycompany.webapp.dto.TodayVolunteersDto"/>
      
       
    </typeAliases>

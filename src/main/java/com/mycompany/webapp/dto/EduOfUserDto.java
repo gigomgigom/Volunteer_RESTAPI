@@ -1,5 +1,9 @@
 package com.mycompany.webapp.dto;
 
-public class EduOfUserDto {
+import lombok.Data;
 
+@Data
+public class EduOfUserDto {
+	 public String memberId;
+	 public int appliedEduPrograms;
 }

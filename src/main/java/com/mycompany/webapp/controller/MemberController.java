@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mycompany.webapp.dto.EduOfUserDto;
 import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.PwChangeRequestDto;
 import com.mycompany.webapp.dto.VolOfUserDto;
@@ -27,7 +28,7 @@ public class MemberController {
     @Autowired
     private MemberService memberService; 
     
-    // 사용자가 완료한 총 봉사 시간, 봉사갯수 가져오기
+    // 사용자가 완료한 총 봉사 시간, 참여 봉사 갯수 가져오기
     @GetMapping("/total-performed-vol/{memberId}")
     public VolOfUserDto getTotalHoursOfUser(@PathVariable String memberId) {
     	return memberService.getTotalVolOfUser(memberId);
@@ -42,7 +43,13 @@ public class MemberController {
     
     
     // 사용자가 신청한 교육 갯수 
+    @GetMapping("/total-applied-edu/{memberId}")
+    public EduOfUserDto getAppliedEduOfUser(@PathVariable String memberId) {
+    	return memberService.getAppliedEduOfUser(memberId);
+    }
+
     
+    //////////// 아래는 정보 찾기
     
     
     //이름, 폰번호로 아이디 찾기
