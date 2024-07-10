@@ -37,7 +37,7 @@ public class VolParticipateController {
 	//봉사프로그램 신청
 	@PostMapping("/apply_vol_program")
 	public Map<String, Object> applyVolProgram(@RequestBody VolAppDetailDto volAppDetail, Authentication authentication) {
-		
+		log.info(volAppDetail.toString());
 		Map<String, Object> result = new HashMap<>();
 		volAppDetail.setMemberId(authentication.getName());
 		int createdRows = 0;
