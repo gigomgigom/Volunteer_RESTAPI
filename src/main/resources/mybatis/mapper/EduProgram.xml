@@ -71,16 +71,14 @@
 		act_bgn_time = #{actBgnTime},
 		act_end_time = #{actEndTime},
 		recruit_region = #{recruitRegion},
-		recruit_bgn_date =
-		#{recruitBgnDate},
+		recruit_bgn_date = #{recruitBgnDate},
 		recruit_end_date = #{recruitEndDate},
-		recruit_cnt =
-		#{recruitCnt},
-		apply_cnt = #{applyCnt},
+		recruit_cnt = #{recruitCnt},
 		act_place = #{actPlace},
 		mng_name = #{mngName},
 		mng_tel = #{mngTel},
-		content = #{content}
+		content = #{content},
+		location = #{location}
 		<if test="battachOname != null">
 			, battach_oname = #{battachOname}
 			, battach_type =
