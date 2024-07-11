@@ -175,4 +175,15 @@ public class MemberService {
 		int tempPw = memberDao.updateMemberPassword(memberId, encodedPassword);
 	}
 
+    public boolean checkId(String memberId) {
+    	int result =  memberDao.countById(memberId);
+    	boolean bool=false;
+    	if(result > 0) {
+    		bool = true;
+    	}else {
+    		bool = false;
+    	}
+        return bool;
+    }
+
 }
