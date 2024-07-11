@@ -104,16 +104,16 @@
 		from educational_program
 		where enabled = 1
 		<if test="regionNo != null and regionNo != ''">
-			and recruit_region = regionNo
+			and recruit_region = #{regionNo}
 		</if>
 		<if test="keyword != null and keyword != ''">
 			and program_title like '%' || #{keyword} || '%'
 		</if>
 		<if test="recruitStts == 1">
-			and recruitStts = 1
+			and recruit_stts = 1
 		</if>
 		<if test="recruitStts == 2">
-			and recruitStts = 2
+			and recruit_stts = 2
 		</if>
 	</select>
 	<select id="selectEduPrgmList">
@@ -138,10 +138,10 @@
 					and program_title like '%' || #{searchIndex.keyword} || '%'
 				</if>
 				<if test="searchIndex.recruitStts == 1">
-					and recruitStts = 1
+					and recruit_stts = 1
 				</if>
 				<if test="searchIndex.recruitStts == 2">
-					and recruitStts = 2
+					and recruit_stts = 2
 				</if>
 		)
 		where rnum <![CDATA[>=]]>#{pager.startRowNo}
