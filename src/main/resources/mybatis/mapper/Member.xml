@@ -61,4 +61,17 @@
 		from member
 		where member_name = #{memberName} and email = #{email}
 	</select>
+	
+	  <!-- 아이디 중복 체크 -->
+  <select id="countById" parameterType="String" resultType="int">
+    SELECT COUNT(*)
+    FROM member
+    WHERE member_id = #{memberId}
+  </select>
+	
+	
+	
+	
+	
+	
 </mapper>
