@@ -101,7 +101,7 @@ public class MemberService {
 		Map<String, Object> result = new HashMap<>();
 		MemberDto dbUser = memberDao.selectMemberByNameAndEmail(memberName, email);
 		if(dbUser != null) {
-			String subject = "Social Pulse 임시 비밀번호 발급 메일입니다.";
+			String subject = "Social Pulse 아이디 확인 메일입니다.";
 			String text = "안녕하세요, " + dbUser.getMemberName() + "님.\n\n아이디는 다음과 같습니다.\n" + dbUser.getMemberId() + "\n확인 후 로그인 하시길 바랍니다.\n";
 			try {
 				this.sendEmail(dbUser.getEmail(), subject, text);

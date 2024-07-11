@@ -3,8 +3,8 @@
 <mapper namespace="com.mycompany.webapp.dao.EduAppDetailDao">
 
 	
-	<select id="selectIsEduApplAlrdyExist" resultType="int">
-		select count(*)
+	<select id="selectIsEduApplAlrdyExist" resultType="eduAppDetail">
+		select *
 		from education_application_detail
 		where member_id = #{memberId} and program_no = #{programNo}
 	</select>

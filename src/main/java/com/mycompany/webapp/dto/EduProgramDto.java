@@ -36,6 +36,7 @@ public class EduProgramDto {
 	private byte[] imgData;
 	private String imgType;
 	private int enabled;
+	private String location;
 	private MultipartFile battachFile;
 	private MultipartFile battachImg;
  	

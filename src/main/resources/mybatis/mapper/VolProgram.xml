@@ -41,21 +41,35 @@
 			select vol_program_no.nextval from dual
 		</selectKey>
 		insert into volunteer_program (
-		program_no, program_title,
-		recruit_stts, act_bgn_date, act_end_date,
-		act_bgn_time, act_end_time,
-		recruit_bgn_date, recruit_end_date,
+		program_no, 
+		program_title,
+		recruit_stts, 
+		act_bgn_date, 
+		act_end_date,
+		act_bgn_time, 
+		act_end_time,
+		recruit_bgn_date, 
+		recruit_end_date,
 		recruit_cnt,
-		apply_cnt, program_ctg,
-		adult_posbl, teen_posbl, recruit_name, act_place,
+		apply_cnt, 
+		program_ctg,
+		adult_posbl, 
+		teen_posbl, 
+		recruit_name, 
+		act_place,
 		mng_name, mng_tel,
-		region_no, battach_oname, battach_data,
-		battach_type, img_oname,
-		img_data, img_type, location, enabled, content)
+		region_no, 
+		battach_oname, battach_data, battach_type, 
+		img_oname, img_data, img_type, 
+		location, enabled, content
+		)
 		values (
 		#{programNo},
-		#{programTitle}, #{recruitStts}, #{actBgnDate}, #{actEndDate},
-		#{actBgnTime},#{actEndTime}, #{recruitBgnDate}, #{recruitEndDate},
+		#{programTitle}, 
+		1,
+		#{actBgnDate}, #{actEndDate},
+		#{actBgnTime},#{actEndTime}, 
+		#{recruitBgnDate}, #{recruitEndDate},
 		#{recruitCnt},
 		0, #{programCtg}, #{adultPosbl}, #{teenPosbl},
 		#{recruitName},
@@ -165,15 +179,23 @@
 	<!-- ㅇ============================================================================================ㅇ -->
 	<!-- ㅇ============================================================================================ㅇ -->
     <update id="updateVolProgram" parameterType="volProgram">
-		update volunteer_program set program_title = #{programTitle},
-		 recruit_stts = #{recruitStts}, act_bgn_date = #{actBgnDate},
-		 act_end_date = #{actEndDate}, act_bgn_time = #{actBgnTime},
-		 act_end_time = #{actEndTime}, recruit_bgn_date = #{recruitBgnDate},
-		 recruit_end_date = #{recruitEndDate}, recruit_cnt = #{recruitCnt},
-		 apply_cnt = #{applyCnt}, program_ctg = #{programCtg}, adult_posbl = #{adultPosbl},
-		 teen_posbl = #{teenPosbl}, recruit_name = #{recruitName}, act_place = #{actPlace},
-		 mng_name = #{mngName}, mng_tel = #{mngTel}, region_no = #{regionNo}, location = #{location},
-		 content = #{content}
+		update volunteer_program set 
+			program_title = #{programTitle},
+			act_bgn_date = #{actBgnDate},
+		 	act_end_date = #{actEndDate}, 
+		 	act_bgn_time = #{actBgnTime},
+		 	act_end_time = #{actEndTime}, 
+		 	recruit_bgn_date = #{recruitBgnDate},
+		 	recruit_end_date = #{recruitEndDate}, 
+		 	recruit_cnt = #{recruitCnt}, 
+		 	program_ctg = #{programCtg}, 
+		 	adult_posbl = #{adultPosbl},
+		 	teen_posbl = #{teenPosbl}, 
+		 	recruit_name = #{recruitName}, 
+		 	act_place = #{actPlace},
+		 	mng_name = #{mngName}, mng_tel = #{mngTel}, 
+		 	region_no = #{regionNo}, location = #{location},
+		 	content = #{content}
 		<if test="battachOname != null">
 			, battach_oname=#{battachOname}
 			,
