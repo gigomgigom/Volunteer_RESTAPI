@@ -45,7 +45,7 @@
 		)
 		values (
 		#{programNo}, #{programTitle}, #{content}, #{recruitRegion},
-		#{recruitCnt}, #{recruitStts},
+		#{recruitCnt}, 1,
 		0, #{recruitBgnDate}, #{recruitEndDate},
 		#{actBgnDate},
 		#{actEndDate},
