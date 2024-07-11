@@ -41,7 +41,7 @@
 		act_end_time, mng_name, mng_tel, act_place,
 		battach_oname,
 		battach_data, battach_type, img_oname, img_data,
-		img_type, enabled
+		img_type, enabled, location
 		)
 		values (
 		#{programNo}, #{programTitle}, #{content}, #{recruitRegion},
@@ -53,7 +53,7 @@
 		#{mngTel}, #{actPlace},
 		#{battachOname}, #{battachData},
 		#{battachType}, #{imgOname},
-		#{imgData}, #{imgType}, 1
+		#{imgData}, #{imgType}, 1, #{location}
 		)
 	</insert>
 	<select id="selectEduProgramByNo" parameterType="int"

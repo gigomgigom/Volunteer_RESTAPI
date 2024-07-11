@@ -11,7 +11,7 @@ import com.mycompany.webapp.dto.MemberDto;
 @Mapper
 public interface EduAppDetailDao {
 
-	int selectIsEduApplAlrdyExist(String memberId, int programNo);
+	EduAppDetailDto selectIsEduApplAlrdyExist(String memberId, int programNo);
 
 	int insertEduApplDtl(String memberId, int programNo);
 

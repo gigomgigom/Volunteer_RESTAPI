@@ -6,15 +6,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.mycompany.webapp.dao.EduAppDetailDao;
-import com.mycompany.webapp.dto.MemberDto;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.mycompany.webapp.dao.EduAppDetailDao;
 import com.mycompany.webapp.dao.EduProgramDao;
 import com.mycompany.webapp.dto.EduAppDetailDto;
 import com.mycompany.webapp.dto.EduProgramDto;
+import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.Pager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,10 +33,16 @@ public class EduParticipateService {
 	
 	//교육신청한지 여부 확인
 	public int checkEduApplExist(String memberId, int programNo) {
-		return eduAppDtlDao.selectIsEduApplAlrdyExist(memberId, programNo);
+		EduAppDetailDto eduAppDtl = eduAppDtlDao.selectIsEduApplAlrdyExist(memberId, programNo);
+		if(eduAppDtl != null) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 	
 	//교육 신청
+	@Transactional
 	public Map<String, Object> applyEduProgram(String memberId, int programNo) {
 		Map<String, Object> result = new HashMap<>();
 		int createdRow = 0;
@@ -62,8 +69,8 @@ public class EduParticipateService {
 			result.put("reason", "교육프로그램이 존재하지 않습니다.");
 			return result;
 		}
-		int isApplDtlAlrdyExist = eduAppDtlDao.selectIsEduApplAlrdyExist(memberId, programNo);
-		if(isApplDtlAlrdyExist == 0) {
+		EduAppDetailDto isApplDtlAlrdyExist = eduAppDtlDao.selectIsEduApplAlrdyExist(memberId, programNo);
+		if(isApplDtlAlrdyExist == null) {
 			createdRow = eduAppDtlDao.insertEduApplDtl(memberId, programNo);
 		} else {
 			result.put("result", "failed");
