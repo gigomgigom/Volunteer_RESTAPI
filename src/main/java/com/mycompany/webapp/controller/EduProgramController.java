@@ -47,8 +47,10 @@ public class EduProgramController {
 			eduProgram.setImgData(null);
 			result.put("result", "success");
 			result.put("eduProgram", eduProgram);
-			int isExist = eduPtcpService.checkEduApplExist(authentication.getName(), programNo);
-			result.put("isEduApplExist", isExist);
+			if(authentication != null) {
+				int isExist = eduPtcpService.checkEduApplExist(authentication.getName(), programNo);
+				result.put("isEduApplExist", isExist);
+			}
 		} else {
 			result.put("result", "failed");
 			result.put("reason", "교육프로그램이 존재하지 않습니다.");
