@@ -39,6 +39,8 @@ public class MemberService {
 		memberDao.insertMember(member);
 	}
 	
+	
+	//아래 4개 홈!!!!!!에 사용
 	// 총 봉사시간 
 	public VolOfUserDto getTotalVolOfUser(String memberId) {
 		return memberDao.getTotalVolOfUser(memberId);		

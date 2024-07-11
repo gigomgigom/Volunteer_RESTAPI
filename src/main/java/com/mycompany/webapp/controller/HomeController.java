@@ -32,19 +32,20 @@ public class HomeController {
 		return "main";
 	}
 	
-	// 오늘 봉사활동 하는 인원 수 
+	
+	//홈!!!! 오늘 봉사활동 하는 인원 수 
 	@GetMapping("/today-volunteers")
 	public TodayVolunteersDto getTodayVolunteers() {
 		return memberService.getTodayVolunteers();
 	}
 
-	// 봉사활동 최신순으로 출력 (캐러셀)
+	//홈!!!! 봉사활동 최신순으로 출력 (캐러셀)
 	@GetMapping("/recent-volprograms")
 	public  List<VolProgramDto> getVolProgramToMain() {
 		return volProgramService.getVolProgramToMain();
 	}
 	
-	// 최신 공지사항 출력
+	//홈!!!! 최신 공지사항 출력
 	@GetMapping("/recent-noticelist-main")
 	public  List<BoardDto> getNoticeListToMain() {
 		return boardService.getNoticeListToMain();

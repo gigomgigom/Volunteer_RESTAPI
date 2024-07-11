@@ -28,21 +28,21 @@ public class MemberController {
     @Autowired
     private MemberService memberService; 
     
-    // 사용자가 완료한 총 봉사 시간, 참여 봉사 갯수 가져오기
+    //홈!!!! 사용자가 완료한 총 봉사 시간, 참여 봉사 갯수 가져오기
     @GetMapping("/total-performed-vol/{memberId}")
     public VolOfUserDto getTotalHoursOfUser(@PathVariable String memberId) {
     	return memberService.getTotalVolOfUser(memberId);
     }
     
     
-    // 사용자가 신청한 봉사 갯수
+    //홈!!!! 사용자가 신청한 봉사 갯수
     @GetMapping("/total-applied-vol/{memberId}")
     public VolOfUserDto getAppliedVolOfUser(@PathVariable String memberId) {
     	return memberService.getAppliedVolOfUser(memberId);
     }
     
     
-    // 사용자가 신청한 교육 갯수 
+    //홈!!!! 사용자가 신청한 교육 갯수 
     @GetMapping("/total-applied-edu/{memberId}")
     public EduOfUserDto getAppliedEduOfUser(@PathVariable String memberId) {
     	return memberService.getAppliedEduOfUser(memberId);

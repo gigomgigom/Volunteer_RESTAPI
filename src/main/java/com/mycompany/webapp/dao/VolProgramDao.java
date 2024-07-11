@@ -22,6 +22,6 @@ public interface VolProgramDao {
 	public VolProgramDto getVolProgram(int programNo);
 	
 	//메인 페이지의 최신 봉사 목록 (캐러셀)
-	public  List<VolProgramDto>  getVolProgramToMain();
+	public  List<VolProgramDto> getVolProgramToMain();
 
 }

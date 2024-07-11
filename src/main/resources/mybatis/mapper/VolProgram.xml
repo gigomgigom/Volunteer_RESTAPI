@@ -54,7 +54,7 @@
 		    FROM VOLUNTEER_PROGRAM 
 		    ORDER BY program_no DESC
 		) 
-		WHERE ROWNUM <= 4
+		WHERE ROWNUM <= 8
 	   ]]>
 	</select>
 		

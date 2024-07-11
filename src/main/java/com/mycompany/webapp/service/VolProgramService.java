@@ -21,6 +21,12 @@ public class VolProgramService {
 	VolProgramDao volProgramDao; 
 	
 
+	//메인에 최신 봉사활동 출력
+	public  List<VolProgramDto> getVolProgramToMain() {
+		return volProgramDao.getVolProgramToMain();		
+	}
+
+	
 	//전체 행수 얻기
 	public int getCount() {
 		return volProgramDao.getcount();
@@ -37,9 +43,5 @@ public class VolProgramService {
 		return volProgramDao.getVolProgram(programNo);
 	}
 
-	//메인에 최신 봉사활동 출력
-	public  List<VolProgramDto> getVolProgramToMain() {
-		return volProgramDao.getVolProgramToMain();		
-	}
 
 }

@@ -21,6 +21,13 @@ public class BoardService {
 	private BoardDao boardDao;
 	private ReviewDao reviewDao;
 	
+	
+	//메인에 공지사항 출력
+	public  List<BoardDto> getNoticeListToMain() {
+		return boardDao.getNoticeListToMain();
+	}
+	
+	
 	public int getCount() {
 		return boardDao.getCount();
 	}
@@ -74,8 +81,5 @@ public class BoardService {
 		return boardDao.getNoticeList(pager);
 	}
 
-	//메인에 공지사항 출력
-	public  List<BoardDto> getNoticeListToMain() {
-		return boardDao.getNoticeListToMain();
-	}
+
 }
