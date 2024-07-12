@@ -127,6 +127,7 @@ public class MemberController {
 		}
 		return result;
 	}
+	
 	//회원 아이디로 부가정보 가져오기
 	@GetMapping("/find_info")
 	public MemberDto getInfo(Authentication authentication) {
