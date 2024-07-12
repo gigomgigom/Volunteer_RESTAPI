@@ -61,4 +61,10 @@ public class VolProgramService {
 		return IntrPrgmDao.getIntrPrgmList(memberId, pager);
 	}
 
+	
+	//메인에 최신 봉사활동 출력
+	public  List<VolProgramDto> getVolProgramToMain() {
+		return volDao.getVolProgramToMain();		
+	}
+
 }
