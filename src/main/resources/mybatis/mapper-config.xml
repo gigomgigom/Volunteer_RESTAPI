@@ -17,5 +17,11 @@
       <typeAlias alias="reviewReply" type="com.mycompany.webapp.dto.ReviewReplyDto"/>
       <typeAlias alias="pager" type="com.mycompany.webapp.dto.Pager"/>
       <typeAlias alias="likeUnlike" type="com.mycompany.webapp.dto.LikeUnlikeDto"/>
+     
+     
+   <typeAlias alias="TodayVolunteersDto" type="com.mycompany.webapp.dto.TodayVolunteersDto"/>
+     <typeAlias alias="VolOfUserDto" type="com.mycompany.webapp.dto.VolOfUserDto"/>
+      <typeAlias alias="EduOfUserDto" type="com.mycompany.webapp.dto.EduOfUserDto"/>
+     <typeAlias alias="EduOfUserDto" type="com.mycompany.webapp.dto.EduOfUserDto"/>
    </typeAliases>
 </configuration>

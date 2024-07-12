@@ -24,5 +24,7 @@ public interface VolProgramDao {
 	public int updateVolProgramEnabled(int programNo);
 	//봉사프로그램 총 신청인 수 업데이트
 	public void updateVolProgramApplCnt(boolean isFull, int programNo);
-
+	
+	//메인에 봉사활동 출력
+	public  List<VolProgramDto> getVolProgramToMain();
 }

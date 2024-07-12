@@ -19,8 +19,4 @@ public class MemberDto {
 	private String hopeCtg;
 	private boolean menabled;
 	private String mrole;
-	
-	//소속센터 이름가져오기 위한 필드
-	private String countyName;
-	private String cityName;
 }

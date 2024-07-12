@@ -28,6 +28,12 @@ public class BoardService {
 	@Autowired
 	private LikeUnlikeDao likeUnlikeDao;
 	
+	//메인에 공지사항 출력
+	public  List<BoardDto> getNoticeListToMain() {
+		return boardDao.getNoticeListToMain();
+	}
+	
+	
 	public int writeBoard(BoardDto board) {
 		return boardDao.insertBoard(board);
 	}
