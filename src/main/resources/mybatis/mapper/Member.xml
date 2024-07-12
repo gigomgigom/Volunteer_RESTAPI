@@ -74,7 +74,6 @@
 		where member_name =
 		#{memberName} and email = #{email}
 	</select>
-	<<<<<<< Updated upstream
 
 	<!-- 아이디 중복 체크 -->
 	<select id="countById" parameterType="String" resultType="int">
