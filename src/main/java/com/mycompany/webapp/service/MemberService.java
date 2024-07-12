@@ -181,4 +181,8 @@ public class MemberService {
         int result = memberDao.countById(memberId);
         return result > 0;
     }
+    
+    public MemberDto getMemberInfo(String memberId) {
+        return memberDao.selectMemberInfo(memberId);
+     }
 }

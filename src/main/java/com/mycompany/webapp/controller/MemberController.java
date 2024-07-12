@@ -133,7 +133,7 @@ public class MemberController {
 		String memberId = authentication.getName();
 		MemberDto member = memService.getMemberInfo(memberId);
 		log.info("회원정보 : " + member);
-		return member;
+		return null;
 	}
 	
 }

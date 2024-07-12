@@ -5,63 +5,78 @@
 
 
 	<!-- 총 봉사 시간, 갯수 -->
-    <select id ="getTotalVolOfUser"  resultType="VolOfUserDto">
-		SELECT member_id AS memberId, 
-		       SUM(daily_hours) AS totalHours, COUNT(DISTINCT PROGRAM_NO) AS totalPrograms
+	<select id="getTotalVolOfUser" resultType="VolOfUserDto">
+		SELECT member_id AS
+		memberId,
+		SUM(daily_hours) AS totalHours, COUNT(DISTINCT PROGRAM_NO) AS
+		totalPrograms
 		FROM (
-		    SELECT VAD.member_id, 
-		           VAD.program_no,
-		           ASCH.apply_date,
-		           (VP.act_end_time - VP.act_bgn_time) AS daily_hours
-				    FROM VOLUNTEER_APPLICATION_DETAIL VAD
-		    JOIN VOLUNTEER_PROGRAM VP ON VAD.program_no = VP.program_no 
-		    JOIN APPLY_SCHEDULE ASCH ON VAD.member_id = ASCH.member_id 
-		                             AND VAD.program_no = ASCH.program_no
-		    WHERE VAD.member_id ='태환짱1' AND VAD.stts_no = '6'
-		) 
+		SELECT VAD.member_id,
+		VAD.program_no,
+		ASCH.apply_date,
+		(VP.act_end_time - VP.act_bgn_time) AS daily_hours
+		FROM VOLUNTEER_APPLICATION_DETAIL VAD
+		JOIN VOLUNTEER_PROGRAM VP ON
+		VAD.program_no = VP.program_no
+		JOIN APPLY_SCHEDULE ASCH ON
+		VAD.member_id = ASCH.member_id
+		AND VAD.program_no = ASCH.program_no
+		WHERE VAD.member_id ='태환짱1' AND VAD.stts_no = '6'
+		)
 		GROUP BY member_id
-    </select>
+	</select>
+
+	<!-- 신청한 봉사 프로그램 수 -->
+	<select id="getAppliedVolOfUser" resultType="VolOfUserDto">
+		SELECT member_id AS
+		memberId,
+		COUNT(DISTINCT PROGRAM_NO) AS appliedVolPrograms
+		FROM (
+		SELECT
+		VAD.member_id,
+		VAD.program_no,
+		ASCH.apply_date,
+		(VP.act_end_time -
+		VP.act_bgn_time) AS daily_hours
+		FROM VOLUNTEER_APPLICATION_DETAIL VAD
+		JOIN VOLUNTEER_PROGRAM VP ON VAD.program_no = VP.program_no
+		JOIN
+		APPLY_SCHEDULE ASCH ON VAD.member_id = ASCH.member_id
+		AND
+		VAD.program_no = ASCH.program_no
+		WHERE VAD.member_id=#{memberId} AND
+		VAD.stts_no = '1'
+		)
+		GROUP BY member_id
+	</select>
+
+	<!-- 신청한 교육 수 -->
+	<select id="getAppliedEduOfUser" resultType="EduOfUserDto">
+		SELECT member_id as
+		memberId, COUNT(program_no) as appliedEduPrograms
+		FROM
+		EDUCATION_APPLICATION_DETAIL
+		WHERE member_id=#{memberId} AND
+		stts_no='1'
+		GROUP BY member_id
+	</select>
 
 
-    <!-- 신청한 봉사 프로그램 수 -->
-     <select id ="getAppliedVolOfUser"  resultType="VolOfUserDto">
-		SELECT member_id AS memberId, 
-		       COUNT(DISTINCT PROGRAM_NO) AS appliedVolPrograms
-		FROM (
-		    SELECT VAD.member_id, 
-		           VAD.program_no,
-		           ASCH.apply_date,
-		           (VP.act_end_time - VP.act_bgn_time) AS daily_hours
-				    FROM VOLUNTEER_APPLICATION_DETAIL VAD
-		    JOIN VOLUNTEER_PROGRAM VP ON VAD.program_no = VP.program_no 
-		    JOIN APPLY_SCHEDULE ASCH ON VAD.member_id = ASCH.member_id 
-		                             AND VAD.program_no = ASCH.program_no
-		    WHERE VAD.member_id=#{memberId} AND VAD.stts_no = '1'
-		) 
-		GROUP BY member_id
-    </select>
-    
-        <!-- 신청한 교육 수 -->
-      <select id="getAppliedEduOfUser" resultType="EduOfUserDto">
-		SELECT member_id as memberId, COUNT(program_no) as appliedEduPrograms
-		FROM EDUCATION_APPLICATION_DETAIL
-		WHERE member_id=#{memberId} AND stts_no='1'
-		GROUP BY member_id
-    </select>
-    
-    
-   <!-- 오늘 봉사활동 하는 인원 수 -->
-    <select id = "getTodayVolunteers" resultType="TodayVolunteersDto">
-	    SELECT COUNT(DISTINCT vad.member_id) AS todayVolunteers
-		FROM volunteer_application_detail VAD
-		JOIN volunteer_program VP ON VAD.program_no = VP.program_no
-		JOIN apply_schedule APS ON VAD.member_id = APS.member_id 
-								AND VAD.program_no = APS.program_no
+	<!-- 오늘 봉사활동 하는 인원 수 -->
+	<select id="getTodayVolunteers" resultType="TodayVolunteersDto">
+		SELECT COUNT(DISTINCT
+		vad.member_id) AS todayVolunteers
+		FROM
+		volunteer_application_detail VAD
+		JOIN volunteer_program VP ON
+		VAD.program_no = VP.program_no
+		JOIN
+		apply_schedule APS ON VAD.member_id
+		= APS.member_id
+		AND VAD.program_no =
+		APS.program_no
 		WHERE APS.apply_date = CURRENT_DATE
-    </select>
-    
-    
-    
+	</select>
 
 	<insert id="insertMember" parameterType="member">
 		insert into
@@ -92,8 +107,10 @@
 	<select id="selectMemList" resultType="member">
 		select rnum, member_id, member_name, tel, email, reg_date
 		from (
-		select rownum as rnum, member_id, member_name, tel, email, reg_date
-		from member
+		select
+		rownum as rnum, member_id, member_name, tel, email, reg_date
+		from
+		member
 		where menabled = 1 and mrole = 'ROLE_USER'
 		and rownum <![CDATA[<=]]>
 		#{endRowNo}
@@ -107,10 +124,12 @@
 		set
 		post_no = #{postNo},
 		address = #{address},
-		address_detail = #{addressDetail},
+		address_detail =
+		#{addressDetail},
 		tel = #{tel},
 		email = #{email},
-		aff_center = #{affCenter},
+		aff_center =
+		#{affCenter},
 		hope_ctg = #{hopeCtg}
 		where member_id = #{memberId}
 	</update>
@@ -127,7 +146,8 @@
 		set
 		menabled = #{enabled}
 		where
-		member_id = #{memberId}
+		member_id =
+		#{memberId}
 	</update>
 	<select id="selectMemberByNameAndEmail" resultType="member">
 		select
@@ -139,7 +159,8 @@
 
 	<!-- 아이디 중복 체크 -->
 	<select id="countById" parameterType="String" resultType="int">
-		SELECT COUNT(*)
+		SELECT
+		COUNT(*)
 		FROM member
 		WHERE member_id = #{memberId}
 	</select>
