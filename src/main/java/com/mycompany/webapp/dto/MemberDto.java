@@ -19,4 +19,5 @@ public class MemberDto {
 	private String hopeCtg;
 	private boolean menabled;
 	private String mrole;
+
 }
