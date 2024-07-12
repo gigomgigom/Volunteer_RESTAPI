@@ -2,76 +2,93 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.webapp.dao.MemberDao">
 	<insert id="insertMember" parameterType="member">
-		insert into member(member_id, member_name, birthdate, member_pw, post_no, address, address_Detail, tel, email, aff_center, hope_ctg, menabled, mrole, reg_date)
-		values (#{memberId}, #{memberName}, #{birthdate}, #{memberPw}, #{postNo}, #{address}, #{addressDetail}, #{tel}, #{email}, #{affCenter}, #{hopeCtg}, #{menabled}, #{mrole}, sysdate)
+		insert into
+		member(member_id, member_name, birthdate, member_pw, post_no, address,
+		address_Detail, tel, email, aff_center, hope_ctg, menabled, mrole,
+		reg_date)
+		values (#{memberId}, #{memberName}, #{birthdate},
+		#{memberPw}, #{postNo}, #{address}, #{addressDetail}, #{tel},
+		#{email}, #{affCenter}, #{hopeCtg}, #{menabled}, #{mrole}, sysdate)
 	</insert>
-	
-	<select id="selectByMemberId" parameterType="String" resultType="member">
-		select member_id, member_name, birthdate, member_pw, post_no, address, address_detail, tel, email, aff_center, hope_ctg, menabled, mrole
+
+	<select id="selectByMemberId" parameterType="String"
+		resultType="member">
+		select member_id, member_name, birthdate, member_pw,
+		post_no, address, address_detail, tel, email, aff_center, hope_ctg,
+		menabled, mrole
 		from member
 		where member_id = #{memberId}
 	</select>
 
 	<select id="selectTotMemCnt" resultType="int">
 		select count(*)
-		from member
+		from
+		member
 		where menabled = 1 and mrole = 'ROLE_USER'
 	</select>
-	
+
 	<select id="selectMemList" resultType="member">
 		select rnum, member_id, member_name, tel, email, reg_date
 		from (
-			select rownum as rnum, member_id, member_name, tel, email, reg_date
-			from member
-			where menabled = 1 and mrole = 'ROLE_USER'
-			and rownum <![CDATA[<=]]> #{endRowNo}
+		select rownum as rnum, member_id, member_name, tel, email, reg_date
+		from member
+		where menabled = 1 and mrole = 'ROLE_USER'
+		and rownum <![CDATA[<=]]>
+		#{endRowNo}
 		)
-		where rnum <![CDATA[>=]]> #{startRowNo}
+		where rnum <![CDATA[>=]]>
+		#{startRowNo}
 	</select>
-	
+
 	<update id="updateMemberInfo" parameterType="member">
 		update member
 		set
-			post_no = #{postNo},
-			address = #{address},
-			address_detail = #{addressDetail},
-			tel = #{tel},
-			email = #{email},
-			aff_center = #{affCenter},
-			hope_ctg = #{hopeCtg}
+		post_no = #{postNo},
+		address = #{address},
+		address_detail = #{addressDetail},
+		tel = #{tel},
+		email = #{email},
+		aff_center = #{affCenter},
+		hope_ctg = #{hopeCtg}
 		where member_id = #{memberId}
 	</update>
-	
+
 	<update id="updateMemberPassword">
 		update member
 		set
-			member_pw = #{newPassword}
+		member_pw = #{newPassword}
 		where
-			 member_id = #{memberId}
+		member_id = #{memberId}
 	</update>
-	<update id = "updateMemberEnabled">
+	<update id="updateMemberEnabled">
 		update member
 		set
-			menabled = #{enabled}
-		where 
-			member_id = #{memberId}
+		menabled = #{enabled}
+		where
+		member_id = #{memberId}
 	</update>
 	<select id="selectMemberByNameAndEmail" resultType="member">
-		select member_id, member_name, email
+		select
+		member_id, member_name, email
 		from member
-		where member_name = #{memberName} and email = #{email}
+		where member_name =
+		#{memberName} and email = #{email}
 	</select>
-	
-	  <!-- 아이디 중복 체크 -->
-  <select id="countById" parameterType="String" resultType="int">
-    SELECT COUNT(*)
-    FROM member
-    WHERE member_id = #{memberId}
-  </select>
-	
-	
-	
-	
-	
-	
+	<<<<<<< Updated upstream
+
+	<!-- 아이디 중복 체크 -->
+	<select id="countById" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM member
+		WHERE member_id = #{memberId}
+	</select>
+	<select id="selectMemberInfo" resultType="member">
+		select m.member_id as
+		memberId, ci.city_name as cityName, co.county_name as countyName
+		from
+		member m, city ci, county co
+		where m.aff_center = co.county_no and
+		co.city_no = ci.city_no and member_id = #{memberId}
+	</select>
+
 </mapper>

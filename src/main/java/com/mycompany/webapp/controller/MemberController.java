@@ -18,6 +18,8 @@ import com.mycompany.webapp.security.AppUserDetailsService;
 import com.mycompany.webapp.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @Slf4j
@@ -125,4 +127,13 @@ public class MemberController {
 		}
 		return result;
 	}
+	//회원 아이디로 부가정보 가져오기
+	@GetMapping("/find_info")
+	public MemberDto getInfo(Authentication authentication) {
+		String memberId = authentication.getName();
+		MemberDto member = memService.getMemberInfo(memberId);
+		log.info("회원정보 : " + member);
+		return member;
+	}
+	
 }
