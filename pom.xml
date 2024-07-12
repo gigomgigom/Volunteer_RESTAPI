@@ -12,6 +12,7 @@
 	<groupId>com.mycompany</groupId>
 	<artifactId>webapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>RESTAPI_Volunteer</name>
 	<description>Rest API for VolunteerServiceProject</description>
 	<properties>

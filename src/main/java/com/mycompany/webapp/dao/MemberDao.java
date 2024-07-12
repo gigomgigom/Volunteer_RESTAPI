@@ -34,5 +34,7 @@ public interface MemberDao {
     
     //오늘 봉사 활동하는 인원 수 (메인 페이지)
     public TodayVolunteersDto getTodayVolunteers();
+    
+	public MemberDto selectMemberInfo(String memberId);
 
 }
