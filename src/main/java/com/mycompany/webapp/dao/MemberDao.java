@@ -36,5 +36,7 @@ public interface MemberDao {
     public TodayVolunteersDto getTodayVolunteers();
     
 	public MemberDto selectMemberInfo(String memberId);
+	
+	
 
 }
