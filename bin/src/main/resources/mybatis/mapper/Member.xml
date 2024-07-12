@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.MemberDao">
+	<insert id="insertMember" parameterType="member">
+		insert into member(member_id, member_name, birthdate, member_pw, post_no, address, address_Detail, tel, email, aff_center, hope_ctg, menabled, mrole, reg_date)
+		values (#{memberId}, #{memberName}, #{birthdate}, #{memberPw}, #{postNo}, #{address}, #{addressDetail}, #{tel}, #{email}, #{affCenter}, #{hopeCtg}, #{menabled}, #{mrole}, sysdate)
+	</insert>
+	
+	<select id="selectByMemberId" parameterType="String" resultType="member">
+		select member_id, member_name, birthdate, member_pw, post_no, address, address_detail, tel, email, aff_center, hope_ctg, menabled, mrole
+		from member
+		where member_id = #{memberId}
+	</select>
+
+	<select id="selectTotMemCnt" resultType="int">
+		select count(*)
+		from member
+		where menabled = 1 and mrole = 'ROLE_USER'
+	</select>
+	
+	<select id="selectMemList" resultType="member">
+		select rnum, member_id, member_name, tel, email, reg_date
+		from (
+			select rownum as rnum, member_id, member_name, tel, email, reg_date
+			from member
+			where menabled = 1 and mrole = 'ROLE_USER'
+			and rownum <![CDATA[<=]]> #{endRowNo}
+		)
+		where rnum <![CDATA[>=]]> #{startRowNo}
+	</select>
+	
+	<update id="updateMemberInfo" parameterType="member">
+		update member
+		set
+			post_no = #{postNo},
+			address = #{address},
+			address_detail = #{addressDetail},
+			tel = #{tel},
+			email = #{email},
+			aff_center = #{affCenter},
+			hope_ctg = #{hopeCtg}
+		where member_id = #{memberId}
+	</update>
+	
+	<update id="updateMemberPassword">
+		update member
+		set
+			member_pw = #{newPassword}
+		where
+			 member_id = #{memberId}
+	</update>
+	<update id = "updateMemberEnabled">
+		update member
+		set
+			menabled = #{enabled}
+		where 
+			member_id = #{memberId}
+	</update>
+	<select id="selectMemberByNameAndEmail" resultType="member">
+		select member_id, member_name, email
+		from member
+		where member_name = #{memberName} and email = #{email}
+	</select>
+</mapper>

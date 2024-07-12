@@ -16,4 +16,5 @@ public interface MemberDao {
 	public int updateMemberPassword(String memberId, String newPassword);
 	public int updateMemberEnabled(String memberId, int enabled);
 	public MemberDto selectMemberByNameAndEmail(String memberName, String email);
+	public int countById(String memberId);
 }
