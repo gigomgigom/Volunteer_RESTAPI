@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,4 +86,10 @@ public class AuthController {
 	}
 	
 	//아이디 찾기
+	@GetMapping("/checkId")
+	public Boolean findIDExist(String memberId) {
+		Boolean result = false;
+		result = memberService.checkId(memberId);
+		return result;
+	}
 }
