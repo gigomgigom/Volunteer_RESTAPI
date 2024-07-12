@@ -36,55 +36,58 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@PreAuthorize("hasAuthority('ROLE_USER')")
+
 @RequestMapping("/Board")
 public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
 	//게시글 추가
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/create_board")
-	public BoardDto createBoard(BoardDto board, Authentication authentication) {
+	public BoardDto createBoard(BoardDto boardDto, Authentication authentication) {
 		// 첨부파일 넘어왔을 때 처리하는 if문
-		if (board.getBattachFile() != null && !board.getBattachFile().isEmpty()) {
-			MultipartFile mf = board.getBattachFile();
+		if (boardDto.getBattachFile() != null && !boardDto.getBattachFile().isEmpty()) {
+			MultipartFile mf = boardDto.getBattachFile();
 			// 파일 이름을 설정
-			board.setBattachOname(mf.getOriginalFilename());
+			boardDto.setBattachOname(mf.getOriginalFilename());
 			// 파일 종류를 설정
-			board.setBattachType(mf.getContentType());
+			boardDto.setBattachType(mf.getContentType());
 			try {
 				// 파일 데이터를 설정
-				board.setBattachData(mf.getBytes());
+				boardDto.setBattachData(mf.getBytes());
 			} catch (IOException e) {
 			}
 		}
 		// 이미지 파일이 넘어왔을 때 처리하는 if문
-		if (board.getBattachImg() != null && !board.getBattachImg().isEmpty()) {
-			MultipartFile mf = board.getBattachImg();
+		if (boardDto.getBattachImg() != null && !boardDto.getBattachImg().isEmpty()) {
+			MultipartFile mf = boardDto.getBattachImg();
 			// 이미지 이름을 설정
-			board.setImgOname(mf.getOriginalFilename());
+			boardDto.setImgOname(mf.getOriginalFilename());
 			// 이미지 종류를 설정
-			board.setImgType(mf.getContentType());
+			boardDto.setImgType(mf.getContentType());
 			try {
 				// 이미지 데이터를 설정
-				board.setImgData(mf.getBytes());
+				boardDto.setImgData(mf.getBytes());
 			} catch (IOException e) {
 			}
 		}
 		// board의 작성자를 세팅
-		board.setMemberId(authentication.getName());
+		boardDto.setMemberId(authentication.getName());
+		log.info("게시글정보 : " + boardDto);
 		// DB에 저장해주는 코드
-		boardService.writeBoard(board);
+		boardService.writeBoard(boardDto);
 
 		// 포스트맨 확인을 위해 null값 처리
-		board.setBattachFile(null);
-		board.setBattachData(null);
-		board.setBattachImg(null);
-		board.setImgData(null);
-		return board;
+		boardDto.setBattachFile(null);
+		boardDto.setBattachData(null);
+		boardDto.setBattachImg(null);
+		boardDto.setImgData(null);
+		return boardDto;
 	}
 	
 	//리뷰글 추가
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/create_review")
 	public ReviewDto createReview(ReviewDto review, Authentication authentication) {
 		// 첨부파일 넘어왔을 때 처리하는 if문
@@ -126,6 +129,7 @@ public class BoardController {
 		return review;
 	}
 	//게시글 상세조회
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("/read_board/{boardNo}")
 	public BoardDto readBoard(@PathVariable int boardNo) {
 		// 조회수 수정
@@ -137,6 +141,7 @@ public class BoardController {
 		return board;
 	}
 	//리뷰글 상세조회
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("/read_review/{boardNo}")
 	public ReviewDto readReview(@PathVariable int boardNo) {
 		// 조회수 수정
@@ -148,6 +153,7 @@ public class BoardController {
 		return review;
 	}
 	//게시글 수정
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PutMapping("/update_board")
 	public BoardDto updateBoard(BoardDto board) {
 		// 첨부파일 넘어왔을 때 처리하는 코드
@@ -186,6 +192,7 @@ public class BoardController {
 		return board;
 	}
 	//리뷰글 수정하기
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PutMapping("/update_review")
 	public ReviewDto updateReview(ReviewDto review) {
 		// 첨부파일 넘어왔을 때 처리하는 코드
@@ -224,6 +231,7 @@ public class BoardController {
 		return review;
 	}
 	//게시글 삭제하기
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@DeleteMapping("/delete_board/{boardNo}")
 	public String deleteBoard(@PathVariable int boardNo) {
 		String result = "fail";
@@ -233,6 +241,7 @@ public class BoardController {
 		return result;
 	}
 	//리뷰글 삭제하기
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@DeleteMapping("/delete_review/{boardNo}")
 	public String deleteReview(@PathVariable int boardNo) {
 		String result = "fail";
@@ -242,6 +251,7 @@ public class BoardController {
 		return result;
 	}
 	//댓글, 답글 작성하기
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/write_review_reply")
 	public ReviewReplyDto writeReviewReply(ReviewReplyDto reviewReply, Authentication authentication) {
 		// 댓글작성자 세팅
@@ -253,6 +263,7 @@ public class BoardController {
 	}
 
 	// 댓글과 답글 리스트 조회
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("/get_review_reply_list/{boardNo}")
 	public List<ReviewReplyDto> reviewReplyList(@PathVariable int boardNo) {
 		Map<String, Object> map = new HashMap<>();
@@ -261,6 +272,7 @@ public class BoardController {
 	}
 
 	// 리뷰글 리스트 조회(페이징)
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("/get_review_list")
 	public Map<String, Object> reviewList(SearchIndex searchIndex) {
 		Map<String, Object> map = new HashMap<>();
@@ -277,6 +289,7 @@ public class BoardController {
 		return map;
 	}
 	// 게시글 리스트 조회(페이징)
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("/get_board_list")
 	public Map<String, Object> boardList(SearchIndex searchIndex) {
 		Map<String, Object> map = new HashMap<>();
@@ -294,6 +307,7 @@ public class BoardController {
 		return map;
 	}
 	// 리뷰게시판 추천/비추천 기능
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/review_like_unlike")
 	public Map<String, Object> reviewLikeUnlike(ReviewDto review, Authentication authentication) {
 		//맵을 만들기 위한 코드
@@ -327,6 +341,7 @@ public class BoardController {
 		return map;
 	}
 	// 게시글마다 추천, 비추천 수 조회하는 기능
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("/like_unlike_count/{boardNo}")
 	public Map<String,Integer> likeUnlikeCount(@PathVariable int boardNo) {
 		Map<String, Integer> map = new HashMap<>();
@@ -340,6 +355,7 @@ public class BoardController {
 	}
 	
 	//회원이 작성한 후기 리스트 조회
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/get_review_list_member")
 	public Map<String, Object> reviewListByMember(SearchIndex searchIndex, Authentication authentication){
 		Map<String, Object> map = new HashMap<>();
@@ -460,7 +476,4 @@ public class BoardController {
 			}
 		}
 	}
-	
-	
-	
 }
