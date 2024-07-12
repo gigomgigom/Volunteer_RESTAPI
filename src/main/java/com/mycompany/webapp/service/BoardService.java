@@ -154,4 +154,8 @@ public class BoardService {
 		return reviewDao.selectReviewListByMember(searchIndex, pager, memberId);
 	}
 
+	public List<BoardDto> getSequenceList(int boardNo, int boardCtg) {
+		return boardDao.selectSequenceList(boardNo, boardCtg);
+	}
+
 }

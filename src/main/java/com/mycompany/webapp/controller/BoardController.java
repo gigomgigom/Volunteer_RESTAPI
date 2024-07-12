@@ -33,7 +33,6 @@ import com.mycompany.webapp.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
 
-
 @RestController
 @Slf4j
 
@@ -41,8 +40,8 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 	@Autowired
 	private BoardService boardService;
-	
-	//게시글 추가
+
+	// 게시글 추가
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/create_board")
 	public BoardDto createBoard(BoardDto boardDto, Authentication authentication) {
@@ -85,8 +84,8 @@ public class BoardController {
 		boardDto.setImgData(null);
 		return boardDto;
 	}
-	
-	//리뷰글 추가
+
+	// 리뷰글 추가
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/create_review")
 	public ReviewDto createReview(ReviewDto review, Authentication authentication) {
@@ -128,7 +127,8 @@ public class BoardController {
 		review.setImgData(null);
 		return review;
 	}
-	//게시글 상세조회
+
+	// 게시글 상세조회
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("/read_board/{boardNo}")
 	public BoardDto readBoard(@PathVariable int boardNo) {
@@ -140,7 +140,8 @@ public class BoardController {
 		board.setImgData(null);
 		return board;
 	}
-	//리뷰글 상세조회
+
+	// 리뷰글 상세조회
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("/read_review/{boardNo}")
 	public ReviewDto readReview(@PathVariable int boardNo) {
@@ -152,7 +153,8 @@ public class BoardController {
 		review.setImgData(null);
 		return review;
 	}
-	//게시글 수정
+
+	// 게시글 수정
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PutMapping("/update_board")
 	public BoardDto updateBoard(BoardDto board) {
@@ -191,7 +193,8 @@ public class BoardController {
 		board.setImgData(null);
 		return board;
 	}
-	//리뷰글 수정하기
+
+	// 리뷰글 수정하기
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PutMapping("/update_review")
 	public ReviewDto updateReview(ReviewDto review) {
@@ -230,7 +233,8 @@ public class BoardController {
 		review.setImgData(null);
 		return review;
 	}
-	//게시글 삭제하기
+
+	// 게시글 삭제하기
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@DeleteMapping("/delete_board/{boardNo}")
 	public String deleteBoard(@PathVariable int boardNo) {
@@ -240,7 +244,8 @@ public class BoardController {
 		}
 		return result;
 	}
-	//리뷰글 삭제하기
+
+	// 리뷰글 삭제하기
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@DeleteMapping("/delete_review/{boardNo}")
 	public String deleteReview(@PathVariable int boardNo) {
@@ -250,7 +255,8 @@ public class BoardController {
 		}
 		return result;
 	}
-	//댓글, 답글 작성하기
+
+	// 댓글, 답글 작성하기
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/write_review_reply")
 	public ReviewReplyDto writeReviewReply(ReviewReplyDto reviewReply, Authentication authentication) {
@@ -277,7 +283,7 @@ public class BoardController {
 	public Map<String, Object> reviewList(SearchIndex searchIndex) {
 		Map<String, Object> map = new HashMap<>();
 		int totalRows = boardService.getReviewCount(searchIndex);
-		if(searchIndex.getPageNo() == 0) {
+		if (searchIndex.getPageNo() == 0) {
 			searchIndex.setPageNo(1);
 		}
 		Pager pager = new Pager(10, 5, totalRows, searchIndex.getPageNo());
@@ -288,62 +294,65 @@ public class BoardController {
 		map.put("pager", pager);
 		return map;
 	}
+
 	// 게시글 리스트 조회(페이징)
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("/get_board_list")
 	public Map<String, Object> boardList(SearchIndex searchIndex) {
 		Map<String, Object> map = new HashMap<>();
 		int totalRows = boardService.getBoardCount(searchIndex);
-		if(searchIndex.getPageNo() == 0) {
+		if (searchIndex.getPageNo() == 0) {
 			searchIndex.setPageNo(1);
 		}
 		Pager pager = new Pager(10, 5, totalRows, searchIndex.getPageNo());
 		List<BoardDto> boardList = boardService.getBoardList(searchIndex, pager);
-		
+
 		map.put("result", "success");
 		map.put("boardList", boardList);
 		map.put("pager", pager);
-		
+
 		return map;
 	}
+
 	// 리뷰게시판 추천/비추천 기능
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/review_like_unlike")
 	public Map<String, Object> reviewLikeUnlike(ReviewDto review, Authentication authentication) {
-		//맵을 만들기 위한 코드
+		// 맵을 만들기 위한 코드
 		Map<String, Object> map = new HashMap<>();
-		//회원의 아이디를 얻어오는 코드
+		// 회원의 아이디를 얻어오는 코드
 		String memberId = authentication.getName();
-		
+
 		log.info("memberId : " + memberId + "reveiw :" + review);
-		//현재 받아온 매개변수로 테이블이 존재하는지 확인하는 코드
+		// 현재 받아온 매개변수로 테이블이 존재하는지 확인하는 코드
 		LikeUnlikeDto likeTable = boardService.getLikeTable(review, memberId);
-		
-		//이미 테이블이 존재하고 있다면 데이터의 값을 변경해주는 코드
-		if(likeTable != null) {
-			//테이블이 존재하고 있는데, 다른 값이 넘어왔을 경우 업데이트를 해준다.
-			if(likeTable.getLikeStts() != review.getLikeStts()) {
+
+		// 이미 테이블이 존재하고 있다면 데이터의 값을 변경해주는 코드
+		if (likeTable != null) {
+			// 테이블이 존재하고 있는데, 다른 값이 넘어왔을 경우 업데이트를 해준다.
+			if (likeTable.getLikeStts() != review.getLikeStts()) {
 				boardService.modifyLikeTable(review, memberId);
 				map.put("result", "success");
-				//테이블이 존재하고 있는데, 같은 값이 넘어왔을 경우 업데이트를 하지 않는다
-			}else if(likeTable.getLikeStts() == review.getLikeStts()) {
+				// 테이블이 존재하고 있는데, 같은 값이 넘어왔을 경우 업데이트를 하지 않는다
+			} else if (likeTable.getLikeStts() == review.getLikeStts()) {
 				map.put("result", "fail");
 			}
-			//테이블이 존재하고 있지 않을 경우
-		}else if(likeTable == null) {
-			//테이블을 새로 만들어주고 데이터를 넣어준다.
+			// 테이블이 존재하고 있지 않을 경우
+		} else if (likeTable == null) {
+			// 테이블을 새로 만들어주고 데이터를 넣어준다.
 			boardService.createLikeTable(review, memberId);
 			map.put("result", "success");
 		}
-		//테이블을 다시 조회하고 조회한 값을 map에 넣어서 보내준다.
+		// 테이블을 다시 조회하고 조회한 값을 map에 넣어서 보내준다.
 		likeTable = boardService.getLikeTable(review, memberId);
 		map.put("likeTable", likeTable);
 		return map;
 	}
+
 	// 게시글마다 추천, 비추천 수 조회하는 기능
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("/like_unlike_count/{boardNo}")
-	public Map<String,Integer> likeUnlikeCount(@PathVariable int boardNo) {
+	public Map<String, Integer> likeUnlikeCount(@PathVariable int boardNo) {
 		Map<String, Integer> map = new HashMap<>();
 		int likeCount = boardService.getLikeCount(boardNo);
 		int unLikeCount = boardService.getUnlikeCount(boardNo);
@@ -351,32 +360,34 @@ public class BoardController {
 		map.put("likeCount", likeCount);
 		map.put("unLikeCount", unLikeCount);
 		map.put("likeUnlikeCount", likeUnlikeCount);
- 		return map;
+		return map;
 	}
-	
-	//회원이 작성한 후기 리스트 조회
+
+	// 회원이 작성한 후기 리스트 조회
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/get_review_list_member")
-	public Map<String, Object> reviewListByMember(SearchIndex searchIndex, Authentication authentication){
+	public Map<String, Object> reviewListByMember(SearchIndex searchIndex, Authentication authentication) {
 		Map<String, Object> map = new HashMap<>();
-		
+
 		int totalRows = boardService.getReviewCountByMember(searchIndex, authentication.getName());
-		if(searchIndex.getPageNo() == 0) {
+		if (searchIndex.getPageNo() == 0) {
 			searchIndex.setPageNo(1);
 		}
 		Pager pager = new Pager(10, 5, totalRows, searchIndex.getPageNo());
-		List<BoardDto> reviewListByMember = boardService.getReviewListByMember(searchIndex, pager, authentication.getName());
-		
+		List<BoardDto> reviewListByMember = boardService.getReviewListByMember(searchIndex, pager,
+				authentication.getName());
+
 		map.put("result", "success");
 		map.put("reviewListByMember", reviewListByMember);
 		map.put("pager", pager);
 		return map;
 	}
-	//통합게시판 첨부파일 다운로드
+
+	// 통합게시판 첨부파일 다운로드
 	@GetMapping("/download_board_battach_file")
 	public void boardDownloadBattach(int boardNo, HttpServletResponse response) {
 		BoardDto board = boardService.getBoard(boardNo);
-		if(board != null) {
+		if (board != null) {
 			try {
 				String fileName = new String(board.getBattachOname().getBytes("UTF-8"), "ISO-8859-1");
 				response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
@@ -398,11 +409,12 @@ public class BoardController {
 			}
 		}
 	}
-	//통합게시판 이미지 다운로드, 이미지 출력
+
+	// 통합게시판 이미지 다운로드, 이미지 출력
 	@GetMapping("/download_board_img_file")
 	public void boardDownloadImg(int boardNo, HttpServletResponse response) {
 		BoardDto board = boardService.getBoard(boardNo);
-		if(board != null) {
+		if (board != null) {
 			try {
 				String fileName = new String(board.getImgOname().getBytes("UTF-8"), "ISO-8859-1");
 				response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
@@ -424,11 +436,12 @@ public class BoardController {
 			}
 		}
 	}
-	//리뷰게시판 첨부파일 다운로드
+
+	// 리뷰게시판 첨부파일 다운로드
 	@GetMapping("/download_review_battach_file")
 	public void reviewDownloadBattach(int boardNo, HttpServletResponse response) {
 		ReviewDto review = boardService.getReview(boardNo);
-		if(review != null) {
+		if (review != null) {
 			try {
 				String fileName = new String(review.getBattachOname().getBytes("UTF-8"), "ISO-8859-1");
 				response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
@@ -450,11 +463,12 @@ public class BoardController {
 			}
 		}
 	}
-	//리뷰게시판 이미지 다운로드, 이미지 출력
+
+	// 리뷰게시판 이미지 다운로드, 이미지 출력
 	@GetMapping("/download_review_img_file")
 	public void reviewDownloadImg(int boardNo, HttpServletResponse response) {
 		ReviewDto review = boardService.getReview(boardNo);
-		if(review != null) {
+		if (review != null) {
 			try {
 				String fileName = new String(review.getImgOname().getBytes("UTF-8"), "ISO-8859-1");
 				response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
@@ -475,5 +489,16 @@ public class BoardController {
 				log.error(e.getMessage());
 			}
 		}
+	}
+
+	// 이전글과 다음글 가져오기 (intergrated_board)
+	@GetMapping("/get_previous_next_board")
+	public Map<String, Object> getPreviousNextBoard(BoardDto boardDto) {
+		Map<String, Object> map = new HashMap<>();
+		List<BoardDto> list = boardService.getSequenceList(boardDto.getBoardNo(), boardDto.getBoardCtg());
+		log.info("매개변수  정보:" + boardDto);
+		map.put("previous", list.get(0));
+		map.put("next", list.get(1));
+		return map;
 	}
 }

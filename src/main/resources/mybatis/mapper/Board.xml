@@ -34,49 +34,71 @@
 		 	]]>
 	</select>
 	
-	
-	
+	<resultMap id="BoardResultMap"
+		type="com.mycompany.webapp.dto.BoardDto">
+		<id property="boardNo" column="board_no" />
+		<result property="memberId" column="member_id" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="boardDate" column="board_date" />
+		<result property="hitCnt" column="hit_cnt" />
+		<result property="adminReply" column="admin_reply" />
+		<result property="battachOname" column="battach_oname" />
+		<result property="battachData" column="battach_data" />
+		<result property="battachType" column="battach_type" />
+		<result property="imgOname" column="img_oname" />
+		<result property="imgData" column="img_data" />
+		<result property="imgType" column="img_type" />
+		<result property="boardCtg" column="board_ctg" />
+	</resultMap>
+
 	<insert id="insertBoard" parameterType="board">
-		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+		<selectKey keyProperty="boardNo" resultType="int"
+			order="BEFORE">
 			select intergrated_bo_no.nextval from dual
-		</selectKey>	
+		</selectKey>
 		<!-- null이 들어갈 컬럼값은 반드시 jdbcType을 명시해야함 -->
 		insert into intergrated_board (
-			board_no, member_id, title, content, board_date, hit_cnt,  
-			battach_oname, battach_data, battach_type, img_oname, img_data,
-			img_type, board_ctg) 
-			values (
-			#{boardNo}, #{memberId}, #{title}, #{content}, sysdate, 0, 
-	       	#{battachOname}, #{battachData}, #{battachType}, #{imgOname}, #{imgData}, 
-	       	#{imgType}, #{boardCtg})
+		board_no, member_id, title, content, board_date, hit_cnt,
+		battach_oname, battach_data, battach_type, img_oname, img_data,
+		img_type, board_ctg)
+		values (
+		#{boardNo}, #{memberId}, #{title}, #{content}, sysdate, 0,
+		#{battachOname}, #{battachData}, #{battachType}, #{imgOname}, #{imgData},
+		#{imgType}, #{boardCtg})
 	</insert>
-	<select id="selectBoardByNo" parameterType="int" resultMap="BoardResultMap">
-        select board_no, member_id, title, content, board_date, hit_cnt, admin_reply,
-               battach_oname, battach_data, battach_type, img_oname, img_data,
-               img_type, board_ctg
-        from intergrated_board 
-        where board_no = #{boardNo}
-    </select>
-    <update id="updateBoard" parameterType="board">
+	<select id="selectBoardByNo" parameterType="int"
+		resultMap="BoardResultMap">
+		select board_no, member_id, title, content, board_date, hit_cnt,
+		admin_reply,
+		battach_oname, battach_data, battach_type, img_oname, img_data,
+		img_type, board_ctg
+		from intergrated_board
+		where board_no = #{boardNo}
+	</select>
+	<update id="updateBoard" parameterType="board">
 		update intergrated_board set title = #{title}, content = #{content}
 		<if test="battachOname != null">
 			, battach_oname=#{battachOname}
-			, battach_type=#{battachType}
+			,
+			battach_type=#{battachType}
 			, battach_data=#{battachData}
 		</if>
 		<if test="imgOname != null">
 			, img_oname=#{imgOname}
 			, img_type=#{imgType}
-			, img_data=#{imgData}
+			,
+			img_data=#{imgData}
 		</if>
 		where board_no = #{boardNo}
 	</update>
-	<update id="updateHitCntByNo" parameterType="int">	
-		update intergrated_board set hit_cnt = hit_cnt + 1 
+	<update id="updateHitCntByNo" parameterType="int">
+		update intergrated_board set hit_cnt = hit_cnt + 1
 		where board_no = #{boardNo}
 	</update>
 	<delete id="deleteBoard" parameterType="int">
-		delete from intergrated_board where board_no= #{boardNo}
+		delete from
+		intergrated_board where board_no= #{boardNo}
 	</delete>
 	<select id="selectBoardCount" resultType="int">
 		select count(*) from
@@ -94,21 +116,25 @@
 		</if>
 	</select>
 	<select id="selectBoardList" resultType="board">
-		select rnum, board_no, member_id, title, content, board_date, hit_cnt, admin_reply
+		select rnum, board_no, member_id, title, content, board_date, hit_cnt,
+		admin_reply
 		from (
 		select rownum as
-		rnum, board_no, member_id, title, content, board_date, hit_cnt, admin_reply
+		rnum, board_no, member_id, title,
+		content, board_date, hit_cnt, admin_reply
 		from (
 		select
-		board_no, member_id, title, content, board_date, hit_cnt, admin_reply
-		from intergrated_board
+		board_no,
+		member_id, title, content, board_date, hit_cnt, admin_reply
+		from
+		intergrated_board
 		where board_ctg = #{searchIndex.ctgNo}
 		<if test="searchIndex.keyword != null">
 			<if test="searchIndex.keywordIndex == 1">
 				and title LIKE '%' || #{searchIndex.keyword} || '%'
 			</if>
 			<if test="searchIndex.keywordIndex == 2">
-				 and member_id = #{searchIndex.keyword}
+				and member_id = #{searchIndex.keyword}
 			</if>
 			<if test="searchIndex.keywordIndex == 3">
 				and content LIKE '%' || #{searchIndex.keyword} || '%'
@@ -122,5 +148,34 @@
 		where rnum <![CDATA[>=]]>
 		#{pager.startRowNo}
 	</select>
-	
+	<select id="selectSequenceList" resultType="board">
+		WITH CurrentPost AS (
+		SELECT board_no
+		FROM intergrated_board
+		WHERE board_no = #{boardNo}
+		AND board_ctg = #{boardCtg}
+		),
+		PreviousPost AS (
+		SELECT *
+		FROM intergrated_board
+		WHERE board_ctg = 1
+		AND board_no <![CDATA[<]]> (SELECT board_no FROM CurrentPost)
+		ORDER BY board_no DESC
+		FETCH FIRST 1 ROWS ONLY
+		),
+		NextPost AS (
+		SELECT *
+		FROM intergrated_board
+		WHERE board_ctg = 1
+		AND board_no <![CDATA[>]]> (SELECT board_no FROM CurrentPost)
+		ORDER BY board_no ASC
+		FETCH FIRST 1 ROWS ONLY
+		)
+		SELECT *
+		FROM PreviousPost
+		UNION ALL
+		SELECT *
+		FROM NextPost
+	</select>
+
 </mapper>
