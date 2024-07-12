@@ -132,9 +132,10 @@ public class MemberController {
 	@GetMapping("/find_info")
 	public MemberDto getInfo(Authentication authentication) {
 		String memberId = authentication.getName();
+		log.info(memberId);
 		MemberDto member = memService.getMemberInfo(memberId);
 		log.info("회원정보 : " + member);
-		return null;
+		return member;
 	}
 	
 }

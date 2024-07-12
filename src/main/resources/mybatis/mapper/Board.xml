@@ -19,7 +19,6 @@
         <result property="boardCtg" column="board_ctg"/>
     </resultMap>
 	
-	
 	<!-- 메인에 공지사항 출력 -->
 	<select id="getNoticeListToMain" parameterType="board">
 	<![CDATA[
@@ -33,24 +32,6 @@
 	WHERE ROWNUM <= 11
 		 	]]>
 	</select>
-	
-	<resultMap id="BoardResultMap"
-		type="com.mycompany.webapp.dto.BoardDto">
-		<id property="boardNo" column="board_no" />
-		<result property="memberId" column="member_id" />
-		<result property="title" column="title" />
-		<result property="content" column="content" />
-		<result property="boardDate" column="board_date" />
-		<result property="hitCnt" column="hit_cnt" />
-		<result property="adminReply" column="admin_reply" />
-		<result property="battachOname" column="battach_oname" />
-		<result property="battachData" column="battach_data" />
-		<result property="battachType" column="battach_type" />
-		<result property="imgOname" column="img_oname" />
-		<result property="imgData" column="img_data" />
-		<result property="imgType" column="img_type" />
-		<result property="boardCtg" column="board_ctg" />
-	</resultMap>
 
 	<insert id="insertBoard" parameterType="board">
 		<selectKey keyProperty="boardNo" resultType="int"
@@ -67,7 +48,7 @@
 		#{battachOname}, #{battachData}, #{battachType}, #{imgOname}, #{imgData},
 		#{imgType}, #{boardCtg})
 	</insert>
-	<select id="selectBoardByNo" parameterType="int"
+	<select id="selectBoardByNo"
 		resultMap="BoardResultMap">
 		select board_no, member_id, title, content, board_date, hit_cnt,
 		admin_reply,

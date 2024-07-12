@@ -165,12 +165,9 @@
 		WHERE member_id = #{memberId}
 	</select>
 	<select id="selectMemberInfo" resultType="member">
-		select m.member_id as
-		memberId, ci.city_name as cityName, co.county_name as countyName
-		from
-		member m, city ci, county co
-		where m.aff_center = co.county_no and
-		co.city_no = ci.city_no and member_id = #{memberId}
+		select member_id, aff_center
+		from member
+		where member_id = #{memberId}
 	</select>
 
 </mapper>

@@ -421,19 +421,22 @@ public class BoardController {
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-
-			// 응답 Contents타입 설정
-			response.setContentType(board.getImgType());
-			// 응답 바디에 파일 데이터를 출력
-			OutputStream os;
-			try {
-				os = response.getOutputStream();
-				os.write(board.getImgData());
-				os.flush();
-				os.close();
-			} catch (IOException e) {
-				log.error(e.getMessage());
+			
+			if(board.getImgType() != null) {
+				// 응답 Contents타입 설정
+				response.setContentType(board.getImgType());
+				// 응답 바디에 파일 데이터를 출력
+				OutputStream os;
+				try {
+					os = response.getOutputStream();
+					os.write(board.getImgData());
+					os.flush();
+					os.close();
+				} catch (IOException e) {
+					log.error(e.getMessage());
+				}
 			}
+			
 		}
 	}
 
@@ -497,8 +500,16 @@ public class BoardController {
 		Map<String, Object> map = new HashMap<>();
 		List<BoardDto> list = boardService.getSequenceList(boardDto.getBoardNo(), boardDto.getBoardCtg());
 		log.info("매개변수  정보:" + boardDto);
-		map.put("previous", list.get(0));
-		map.put("next", list.get(1));
+		if(list.size() <= 1) {
+			BoardDto board = new BoardDto();
+			board.setTitle("없음");
+			board.setBoardNo(0);
+			map.put("previous", board);
+			map.put("next", board);
+		}else {
+			map.put("previous", list.get(0));
+			map.put("next", list.get(1));
+		}
 		return map;
 	}
 }
