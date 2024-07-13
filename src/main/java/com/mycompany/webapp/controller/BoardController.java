@@ -499,7 +499,7 @@ public class BoardController {
 	public Map<String, Object> getPreviousNextBoard(BoardDto boardDto) {
 		Map<String, Object> map = new HashMap<>();
 		List<BoardDto> list = boardService.getSequenceList(boardDto.getBoardNo(), boardDto.getBoardCtg());
-		log.info("매개변수  정보:" + boardDto);
+		
 		if(list.size() <= 1) {
 			BoardDto board = new BoardDto();
 			board.setTitle("없음");

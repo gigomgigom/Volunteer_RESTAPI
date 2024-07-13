@@ -139,7 +139,7 @@
 		PreviousPost AS (
 		SELECT *
 		FROM intergrated_board
-		WHERE board_ctg = 1
+		WHERE board_ctg = #{boardCtg}
 		AND board_no <![CDATA[<]]> (SELECT board_no FROM CurrentPost)
 		ORDER BY board_no DESC
 		FETCH FIRST 1 ROWS ONLY
@@ -147,7 +147,7 @@
 		NextPost AS (
 		SELECT *
 		FROM intergrated_board
-		WHERE board_ctg = 1
+		WHERE board_ctg = #{boardCtg}
 		AND board_no <![CDATA[>]]> (SELECT board_no FROM CurrentPost)
 		ORDER BY board_no ASC
 		FETCH FIRST 1 ROWS ONLY
