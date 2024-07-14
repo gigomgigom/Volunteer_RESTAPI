@@ -158,5 +158,9 @@
 		SELECT *
 		FROM NextPost
 	</select>
+	<insert id="insertAdminReply" parameterType="board">
+		insert into intergrated_board (admin_reply)
+		values (#{adminReply})
+	</insert>
 
 </mapper>

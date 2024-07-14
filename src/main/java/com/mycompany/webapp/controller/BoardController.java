@@ -255,6 +255,15 @@ public class BoardController {
 		}
 		return result;
 	}
+	
+	//관리자 답변 작성
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PostMapping("/write_admin_reply")
+	public void writeAdminReply(BoardDto boardDto) {
+		boardService.writeAdminReply(boardDto);
+	}
+	
+	//관리자 답변 조회
 
 	// 댓글, 답글 작성하기
 	@PreAuthorize("hasAuthority('ROLE_USER')")

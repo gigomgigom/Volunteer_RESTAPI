@@ -158,4 +158,10 @@ public class BoardService {
 		return boardDao.selectSequenceList(boardNo, boardCtg);
 	}
 
+
+	public void writeAdminReply(BoardDto boardDto) {
+		boardDao.insertAdminReply(boardDto);
+		
+	}
+
 }

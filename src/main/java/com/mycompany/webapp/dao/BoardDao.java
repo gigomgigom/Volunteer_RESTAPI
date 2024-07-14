@@ -29,5 +29,7 @@ public interface BoardDao {
 
 	public List<BoardDto> selectSequenceList(int boardNo, int boardCtg);
 
+	public void insertAdminReply(BoardDto boardDto);
+
 
 }
