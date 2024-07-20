@@ -302,7 +302,6 @@ public class AdminController {
 		return result;
 	}
 	
-	
 	//봉사프로그램 신청인 목록 조회
 	@GetMapping("/get_vol_participant_list")
 	public Map<String, Object> getVolParticipantList(int programNo) {

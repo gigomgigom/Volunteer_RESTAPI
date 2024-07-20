@@ -30,7 +30,7 @@ public interface MemberDao {
     public VolOfUserDto getAppliedVolOfUser(@Param("memberId") String memberId);
 
     //신청한 교육 갯수 가져오기
-    public EduOfUserDto getAppliedEduOfUser(@Param("memberId") String memberId);
+    public EduOfUserDto getAppliedEduOfUser(@Param("memberId") String memberId); 
     
     //오늘 봉사 활동하는 인원 수 (메인 페이지)
     public TodayVolunteersDto getTodayVolunteers();

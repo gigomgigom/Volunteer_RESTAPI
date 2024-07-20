@@ -230,7 +230,9 @@
 	<!-- 봉사 프로그램 메인에 출력 (캐러셀) -->
 	<select id="getVolProgramToMain" parameterType="volProgram">
 	   <![CDATA[
-		SELECT program_title AS programTitle,
+		SELECT 
+		program_no as programNo,
+		program_title AS programTitle,
 		       recruit_stts AS recruitStts,
 		       act_bgn_date AS actBgnDate,
 		       act_end_date AS actEndDate,
@@ -240,8 +242,7 @@
 		       apply_cnt AS applyCnt,
 	           img_oname AS imgOname,
 	           img_data AS imgData,
-	           img_type AS imgType		       
-		        
+	           img_type AS imgType
 		FROM (
 		    SELECT *
 		    FROM VOLUNTEER_PROGRAM 
