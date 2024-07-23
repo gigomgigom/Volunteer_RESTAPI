@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -436,10 +437,12 @@ public class AdminController {
 	
 	//봉사실적 승인요청 승인하기
 	@PatchMapping("/approve_perform_rqst")
-	public Map<String, Object> approvePerformRqst(VolAppDetailDto volAppDtl) {
+	public Map<String, Object> approvePerformRqst(@RequestBody VolAppDetailDto volAppDtl) {
+		log.info("승인요청 실행됨");
 		Map<String, Object> result = new HashMap<>();
 		
 		volAppDtl.setSttsNo(6);
+		log.info(volAppDtl+"");
 		int updatedRow = volPtcpService.approvePerformRqst(volAppDtl);
 		
 		if(updatedRow > 0) {
