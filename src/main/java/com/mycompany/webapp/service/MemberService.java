@@ -134,9 +134,9 @@ public class MemberService {
         Map<String, Object> result = new HashMap<>();
         MemberDto dbUser = memberDao.selectByMemberId(member.getMemberId());
         if (dbUser != null && !dbUser.getEmail().isEmpty()) {
-            if (dbUser.getMemberName().equals(member.getMemberName()) && dbUser.getEmail().equals(member.getEmail())) {
+            if (dbUser.getMemberName().equals(member.getMemberName()) && dbUser.getEmail().equals(member.getEmail()) && dbUser.getMemberId().equals(member.getMemberId())) {
                 String tempPw = generateTempPassword();
-                String subject = "Social Pulse 아이디 확인 메일입니다.";
+                String subject = "Social Pulse 비밀번호 확인 메일입니다.";
                 String text = "안녕하세요, " + dbUser.getMemberName() + "님.\n\n임시 비밀번호는 다음과 같습니다.\n" + tempPw + "\n로그인 후 비밀번호를 변경해 주세요.\n";
                 try {
                     this.sendEmail(dbUser.getEmail(), subject, text);

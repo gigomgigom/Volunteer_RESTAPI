@@ -506,6 +506,7 @@ public class BoardController {
 	// 이전글과 다음글 가져오기 (intergrated_board)
 	@GetMapping("/get_previous_next_board")
 	public Map<String, Object> getPreviousNextBoard(BoardDto boardDto) {
+		log.info("이전글실행");
 		Map<String, Object> map = new HashMap<>();
 		List<BoardDto> list = boardService.getSequenceList(boardDto.getBoardNo(), boardDto.getBoardCtg());
 		
